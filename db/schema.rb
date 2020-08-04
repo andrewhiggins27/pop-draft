@@ -10,10 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_03_185149) do
+ActiveRecord::Schema.define(version: 2020_08_04_203821) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "draft_classes", force: :cascade do |t|
+    t.bigint "pool_id"
+    t.bigint "game_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_draft_classes_on_game_id"
+    t.index ["pool_id"], name: "index_draft_classes_on_pool_id"
+  end
+
+  create_table "games", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "pools", force: :cascade do |t|
     t.string "name", null: false
@@ -27,16 +41,31 @@ ActiveRecord::Schema.define(version: 2020_08_03_185149) do
     t.string "image", null: false
     t.bigint "pool_id"
     t.bigint "team_id"
+    t.bigint "draft_class_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["draft_class_id"], name: "index_selections_on_draft_class_id"
     t.index ["pool_id"], name: "index_selections_on_pool_id"
     t.index ["team_id"], name: "index_selections_on_team_id"
   end
 
   create_table "teams", force: :cascade do |t|
     t.string "name"
+    t.bigint "game_id"
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_teams_on_game_id"
+    t.index ["user_id"], name: "index_teams_on_user_id"
+  end
+
+  create_table "usergames", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "game_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_usergames_on_game_id"
+    t.index ["user_id"], name: "index_usergames_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|

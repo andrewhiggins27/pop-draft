@@ -14,7 +14,11 @@ const DraftContainer = props => {
   let poolId = props.match.params.id
 
   const chooseSelection = (selectionID) => {
-    setChosen(selectionID)
+    if (selectionID === chosen) {
+      setChosen(null)
+    } else {
+      setChosen(selectionID)
+    }
   }
 
   useEffect(() => {

@@ -5,4 +5,5 @@ class Selection < ApplicationRecord
 
   belongs_to :pool
   belongs_to :team, optional: true
+  belongs_to :draft_class, optional: true
 end
