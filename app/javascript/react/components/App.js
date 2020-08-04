@@ -1,21 +1,17 @@
-import ReactStars from 'react-stars'
 import React from 'react'
-import { render } from 'react-dom'
+import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
+
+import DraftContainer from './DraftContainer'
 
 export const App = (props) => {
-  const ratingChanged = (newRating) => {
-    console.log(newRating)
-  }
 
   return (
     <div>
-      <h1>Make It So React</h1>
-      <ReactStars
-        count={5}
-        onChange={ratingChanged}
-        size={24}
-        color2={'#ffd700'} 
-      />
+      <BrowserRouter>
+        <Switch>
+          <Route exact path="/pools/:id" component={DraftContainer} />
+        </Switch>
+      </BrowserRouter>
     </div>
   )
 }
