@@ -55,3 +55,4 @@ gem 'foundation-rails', '~> 6.5'
 gem 'webpacker', '~> 3.3'
 gem 'faraday'
 gem "faraday_middleware", '1.0.0'
+gem "active_model_serializers"

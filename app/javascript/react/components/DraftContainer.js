@@ -36,8 +36,8 @@ const DraftContainer = props => {
       })
       .then(response => response.json())
       .then(body => {
-        setSelections(body)
-        setDraftPool(body)
+        setSelections(body.draft_class.selections)
+        setDraftPool(body.draft_class.selections)
       })
       .catch(error => console.error(`Error in fetch: ${error.message}`))
   }, [])
@@ -100,17 +100,10 @@ const DraftContainer = props => {
     }
   }
 
-  let draftButton
-  if (chosen) {
-    draftButton = <div className="button cell" onClick={draftClick}>Draft!</div>
-  } else {
-    draftButton = <></>
-  }
-
   if (teamOneSelections.length === 5 && teamTwoSelections.length === 5) {
     let payload = {
-      poolId: poolId,
       draftPool: draftPool,
+      poolId: poolId,
       undrafted: selections,
       finalTeams: [teamOneSelections, teamTwoSelections],
     }
@@ -124,7 +117,7 @@ const DraftContainer = props => {
 
   return(
     <div className='grid-y'>
-      {draftButton}
+      {chosen && <div className="button large" onClick={draftClick}>Draft!</div>}
       <div className='grid-x cell'>
         <div className="cell large-2 text-center">
           Team One:

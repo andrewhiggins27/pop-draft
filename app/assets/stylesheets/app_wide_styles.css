@@ -5,3 +5,15 @@
   --color-4: #F7AF63;
   --color-5: #633D2E;
 }
+
+body {
+  background-image: linear-gradient(to right, #74ebd5 0%, #9face6 100%);
+}
+
+.nav-bar {
+  background-color: var(--color-1);
+}
+
+.site-title {
+  color: var(--color-5);
+}
