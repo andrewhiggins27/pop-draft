@@ -8,7 +8,7 @@ class Api::V1::GamesController < ApplicationController
   def update
     selection = Selection.find(params["selection"])
     game = Game.find(params["id"])
-    team = game.teams[params["player"]]
+    team = game.teams[params["player"].to_i]
     team.selections << selection
     game.selections.destroy(selection)
     

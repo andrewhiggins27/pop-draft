@@ -5,7 +5,6 @@ class Selection < ApplicationRecord
 
   belongs_to :pool
   belongs_to :draft_class, optional: true
-  belongs_to :game, optional: true
 
   has_many :teamselections
   has_many :teams, through: :teamselections
