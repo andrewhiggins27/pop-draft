@@ -1,0 +1,19 @@
+:root {
+  --color-1: #9CDDC8;
+  --color-2: #BFD8AD;
+  --color-3: #DDD9AB;
+  --color-4: #F7AF63;
+  --color-5: #633D2E;
+}
+
+body {
+  background-image: linear-gradient(to right, #74ebd5 0%, #9face6 100%);
+}
+
+.nav-bar {
+  background-color: var(--color-1);
+}
+
+.site-title {
+  color: var(--color-5);
+}
