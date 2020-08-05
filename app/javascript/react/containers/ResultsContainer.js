@@ -1,7 +1,7 @@
 import React from 'react'
 
-import TeamSelectionTile from './TeamSelectionTile'
-import Teams from './Teams'
+import TeamSelectionTile from '../components/TeamSelectionTile'
+import Teams from '../components/Teams'
 
 const ResultsContainer = props => {
   let draftPool = props.payload.draftPool.map(selection => {
