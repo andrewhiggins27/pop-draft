@@ -10,13 +10,13 @@ const Teams = props => {
         name={selection.name}
         description={selection.description}
         image={selection.image}
+        resultsTeam={true}
       />
     )
   })
 
   return (
-    <div className="cell small-4 callout">
-      TEAM:
+    <div className="cell small-6 callout results-team grid-x">
       {selectionTiles}
     </div>
   )

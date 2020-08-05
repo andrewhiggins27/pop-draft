@@ -61,8 +61,8 @@ const ResultsContainer = props => {
   return(
     <div className='grid-container grid-x'>
       <h1 className='text-center cell'>Results</h1>
-      <div className='callout cell grid-x'>
         <h2>Draft Pool:</h2>
+      <div className='callout cell grid-x'>
         {draftPool}
       </div>
       <br></br>
