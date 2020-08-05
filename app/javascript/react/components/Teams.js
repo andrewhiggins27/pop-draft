@@ -15,7 +15,7 @@ const Teams = props => {
   })
 
   return (
-    <div className="cell small-4">
+    <div className="cell small-4 callout">
       TEAM:
       {selectionTiles}
     </div>

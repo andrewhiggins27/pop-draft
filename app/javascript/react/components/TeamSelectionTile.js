@@ -3,7 +3,7 @@ import React from 'react'
 const TeamSelectionTiles = props => {
 
   return(
-    <div className="cell large-1">
+    <div className="cell small-2 large-1">
       {props.name}
       <br></br>
       <img

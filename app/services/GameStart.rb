@@ -1,5 +1,5 @@
-class GameStart
-  def begin_game (pool_id)
+class GameStart 
+  def self.begin_game (pool_id)
     binding.pry
     pool = Pool.find(pool_id)
     game = Game.create
