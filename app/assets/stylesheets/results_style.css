@@ -1,0 +1,11 @@
+.team-tile {
+  max-width: 6rem;
+  border-style: solid;
+  border-radius: 10%;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.results-team {
+  margin: 2rem;
+}
