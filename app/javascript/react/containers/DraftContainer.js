@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
+import { Redirect } from "react-router-dom";
 
 import SelectionTile from '../components/SelectionTile'
-import ResultsContainer from './ResultsContainer'
 
 const DraftContainer = props => {
   const [draftClass, setDraftClass] = useState([])
@@ -129,17 +129,8 @@ const DraftContainer = props => {
   }
 
   if (teamOneSelections.length === 5 && teamTwoSelections.length === 5) {
-    let payload = {
-      draftClass: draftClass,
-      poolId: poolId,
-      undrafted: selections,
-      finalTeams: [teamOneSelections, teamTwoSelections],
-    }
-
     return (
-      <ResultsContainer
-        payload={payload}
-      />
+      <Redirect to={`/games/${draftClass.game.id}`} />
     )
   }
 
