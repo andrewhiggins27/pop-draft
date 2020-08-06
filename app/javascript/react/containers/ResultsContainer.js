@@ -5,6 +5,7 @@ import Teams from '../components/Teams'
 
 const ResultsContainer = props => {
   const [game, setGame] = useState({})
+  const [chosen, setChosen] = useState(null)
 
   let gameId = props.match.params.id
 
@@ -28,6 +29,14 @@ const ResultsContainer = props => {
       .catch(error => console.error(`Error in fetch: ${error.message}`))
   }, [])
 
+  const chooseTeam = (chosenId) => {
+    if (chosenId === chosen) {
+      setChosen(null)
+    } else {
+      setChosen(chosenId)
+    }
+  }
+
   let draftPool
   if (game.draft_class) {
     draftPool = game.draft_class.selections.map(selection => {
@@ -44,13 +53,38 @@ const ResultsContainer = props => {
     draftPool = <></>
   }
 
+  let undrafted
+  if (game.selections) {
+    undrafted = game.selections.map(selection => {
+      return(
+        <TeamSelectionTile
+          key={selection.id}
+          name={selection.name}
+          description={selection.description}
+          image={selection.image}
+        />
+      )
+    })
+  } else {
+    undrafted = <></>
+  }
+
   let finalTeams
   if (game.teams) {
     finalTeams = game.teams.map((team, i)=> {
+      let chosenTeam = false
+      if (chosen === team.id) {
+        chosenTeam = true
+      }
       return (
         <Teams
-          key={i}
+          key={team.id}
+          id={team.id}
+          user={team.user}
+          index={i}
           selections={team.selections}
+          chosenTeam={chosenTeam}
+          chooseTeam={chooseTeam}
         />
       )
     })
@@ -61,13 +95,22 @@ const ResultsContainer = props => {
   return(
     <div className='grid-container grid-x'>
       <h1 className='text-center cell'>Results</h1>
-        <h2>Draft Pool:</h2>
-      <div className='callout cell grid-x'>
-        {draftPool}
-      </div>
-      <br></br>
       <h1 className='cell'>Final Teams:</h1>
-      {finalTeams}
+      <div className="grid-x">
+        {finalTeams}
+      </div>
+      <div>
+        <h2>Draft Pool:</h2>
+        <div className='callout cell grid-x'>
+          {draftPool}
+        </div>
+      </div>
+      <div>
+        <h2>Undrafted:</h2>
+        <div className='callout cell grid-x'>
+          {undrafted}
+        </div>
+      </div>
     </div>
   )
 }

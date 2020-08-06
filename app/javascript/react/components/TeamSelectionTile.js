@@ -1,19 +1,22 @@
 import React from 'react'
 
 const TeamSelectionTiles = props => {
-  let classes = "cell small-2 large-1 team-tile callout"
+  let classes = "small-2 card results-spacing"
 
   if (props.resultsTeam) {
-    classes = "cell small-6 large-4 team-tile callout"
+    classes = "small-6 large-5 card results-spacing"
   }
   return(
     <div className={classes}>
-      {props.name}
-      <br></br>
-      <img
-        src={props.image}
-        alt={`image of ${props.name}`}
-      />
+      <div className="card-divider">
+        <h4>{props.name}</h4>
+      </div>
+      <div className="card-section">
+        <img
+          src={props.image}
+          alt={`image of ${props.name}`}
+        />
+      </div>
     </div>
   )
 }
