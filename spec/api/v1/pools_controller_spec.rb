@@ -54,7 +54,7 @@ RSpec.describe Api::V1::PoolsController, type: :controller do
       expect(returned_json.length).to eq(1)
       expect(returned_json["draft_class"]["selections"].count).to eq(3)
       expect(returned_json["draft_class"]["pool"]["name"]).to eq(pool1.name)
-      expect(returned_json["draft_class"]["game"].count).to eq(3)
+      expect(returned_json["draft_class"]["game"].count).to eq(4)
     end
   end
 end
