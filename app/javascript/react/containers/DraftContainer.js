@@ -81,7 +81,7 @@ const DraftContainer = props => {
     }
   }
 
-  const SelectionTiles = selections.map((selection) => {
+  const selectionTiles = selections.map((selection) => {
     let chosenTile = false
     if (chosen === selection.id) {
       chosenTile = true
@@ -100,7 +100,7 @@ const DraftContainer = props => {
     )
   })
 
-  const TeamOneSelectionTiles = teamOneSelections.map(selection => {
+  const teamOneSelectionTiles = teamOneSelections.map(selection => {
     return(
       <SelectionTile
         key={selection.id}
@@ -111,7 +111,7 @@ const DraftContainer = props => {
     )
   })
 
-  const TeamTwoSelectionTiles = teamTwoSelections.map(selection => {
+  const teamTwoSelectionTiles = teamTwoSelections.map(selection => {
     return(
       <SelectionTile
         key={selection.id}
@@ -140,14 +140,14 @@ const DraftContainer = props => {
       <div className='grid-x cell'>
         <div className="cell large-2 text-center">
           Team One:
-          {TeamOneSelectionTiles}
+          {teamOneSelectionTiles}
         </div>
         <div className='grid-container grid-x cell large-8'>
-          {SelectionTiles}
+          {selectionTiles}
         </div>
         <div className="cell large-2 text-center">
           Team Two:
-          {TeamTwoSelectionTiles}
+          {teamTwoSelectionTiles}
         </div>
       </div>
     </div>
