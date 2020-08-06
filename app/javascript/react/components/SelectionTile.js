@@ -1,10 +1,10 @@
 import React from 'react'
 
 const SelectionTile = props => {
-  let classes = "cell callout large-3 small-4 text-center"
+  let classes = "cell card large-3 small-4 text-center"
 
   if (props.chosen) {
-   classes = "success " + classes
+   classes = "chosen-tile " + classes
   }
 
   const handleClick = event => {
@@ -14,12 +14,15 @@ const SelectionTile = props => {
 
   return (
     <div className={classes} onClick={handleClick}>
-      {props.name}
-      <br></br>
-      <img
-        src={props.image}
-        alt={`image of ${props.name}`}
-      />
+      <div className="card-divider">
+        <h4>{props.name}</h4>
+      </div>
+      <div className="card-section">
+        <img
+          src={props.image}
+          alt={`image of ${props.name}`}
+        />
+      </div>
     </div>
   )
 }

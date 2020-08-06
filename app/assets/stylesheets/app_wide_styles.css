@@ -1,5 +1,12 @@
+@font-face {
+  font-family: 'Chivo';
+  src: url('/assets/Chivo-Regular.ttf') format('truetype');
+  src: url('/assets/Chivo-Bold.ttf') format('truetype');
+  src: url('/assets/Chivo-Italic.ttf') format('truetype');
+  }
+
 :root {
-  --color-1: #9CDDC8;
+  --color-1: #9face6;
   --color-2: #BFD8AD;
   --color-3: #DDD9AB;
   --color-4: #F7AF63;
@@ -12,6 +19,7 @@ body {
 
 .nav-bar {
   background-color: var(--color-1);
+  font-family: 'Chivo';
 }
 
 .site-title {

@@ -1,6 +1,10 @@
 class Api::V1::PoolsController < ApplicationController
   protect_from_forgery unless: -> { request.format.json? }
 
+  def index
+    render json: Pool.all
+  end
+
   def show
     pool = Pool.find(params["id"])
     game = Game.create
