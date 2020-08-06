@@ -10,6 +10,7 @@ const DraftContainer = props => {
   const [teamTwoSelections, setTeamTwoSelections] = useState([])
   const [chosen, setChosen] = useState(null)
   const [currentPlayer, setCurrentPlayer] = useState(0)
+  const [round, setRound] = useState("")
   
   const chooseSelection = (selectionID) => {
     if (selectionID === chosen) {
@@ -34,6 +35,7 @@ const DraftContainer = props => {
       })
       .then(response => response.json())
       .then(body => {
+        setRound("1")
         setSelections(body.draft_class.selections)
         setDraftClass(body.draft_class)
       })
@@ -64,12 +66,13 @@ const DraftContainer = props => {
       setTeamOneSelections(body.game.teams[0].selections)
       setTeamTwoSelections(body.game.teams[1].selections)
       setSelections(body.game.selections)
+      setRound(body.game.round)
     })
     .catch((error) => console.error(`Error in fetch: ${error.message}`))
   }
 
   const makeSelection = (selection, player) => { 
-    let payload = {selection: selection, player: player}
+    let payload = {selection: selection, player: player, round: round}
     fetchPatch(payload, `/api/v1/games/${draftClass.game.id}`)
     setChosen(null)
     if (player === 0) {
@@ -132,8 +135,14 @@ const DraftContainer = props => {
     )
   }
 
+  let currentRound = <h2 className='text-center'>Round {round}</h2>
+  if (round === "5") {
+    currentRound = <h2 className='text-center'>FINAL ROUND</h2>
+  }
+
   return(
     <div className='grid-y'>
+      {currentRound}
       {chosen && <div className="button large" onClick={draftClick}>Draft!</div>}
       <div className='grid-x cell'>
         <div className="cell large-2 text-center">
