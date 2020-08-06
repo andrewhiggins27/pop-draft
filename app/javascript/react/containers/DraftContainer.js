@@ -82,6 +82,12 @@ const DraftContainer = props => {
     }
   }
 
+  const draftClick = event => {
+    event.preventDefault()
+    let draftPick = selections.find(selection => selection.id === chosen)
+    makeSelection(draftPick.id, currentPlayer)
+  }
+
   const selectionTiles = selections.map((selection) => {
     let chosenTile = false
     if (chosen === selection.id) {
@@ -123,20 +129,14 @@ const DraftContainer = props => {
     )
   })
 
-  const draftClick = event => {
-    event.preventDefault()
-    let draftPick = selections.find(selection => selection.id === chosen)
-    makeSelection(draftPick.id, currentPlayer)
-  }
-
-  if (teamOneSelections.length === 5 && teamTwoSelections.length === 5) {
+  if (teamOneSelections.length === 6 && teamTwoSelections.length === 6) {
     return (
       <Redirect to={`/games/${draftClass.game.id}`} />
     )
   }
 
   let currentRound = <h2 className='text-center'>Round {round}</h2>
-  if (round === "5") {
+  if (round === "6") {
     currentRound = <h2 className='text-center'>FINAL ROUND</h2>
   }
 

@@ -16,7 +16,7 @@ class Api::V1::GamesController < ApplicationController
       game.round = (game.round.to_i + 1).to_s
       game.save
 
-      if game.round == "6"
+      if game.round == "7"
         game.round = "complete"
         game.save
       end
