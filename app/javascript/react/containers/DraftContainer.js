@@ -11,8 +11,6 @@ const DraftContainer = props => {
   const [chosen, setChosen] = useState(null)
   const [currentPlayer, setCurrentPlayer] = useState(0)
   
-  let poolId = props.match.params.id
-
   const chooseSelection = (selectionID) => {
     if (selectionID === chosen) {
       setChosen(null)
@@ -22,7 +20,7 @@ const DraftContainer = props => {
   }
 
   useEffect(() => {
-    fetch(`/api/v1/pools/${poolId}`, {
+    fetch(`/api/v1/pools/${props.poolId}`, {
       credentials: 'same-origin'
     })
       .then(response => {
