@@ -2,6 +2,9 @@ Rails.application.routes.draw do
   root 'homes#index'
   get '/pools/:id', to: 'homes#index'
   get '/games/:id', to: 'homes#index'
+  get '/chats', to: 'homes#index'
+  get '/chats/:id', to: 'homes#index'
+
 
   devise_for :users
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
@@ -9,6 +12,9 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :pools, only: [:index, :show]
       resources :games, only: [:show, :update]
+      resources :messages, only: [:create]
+      resources :users, only: [:show]
+      get "users/current" => "users#current_user"
     end
   end
 end
