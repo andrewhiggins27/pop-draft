@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  acts_as_voter
+
   has_many :usergames
   has_many :games, through: :usergames
   has_many :teams

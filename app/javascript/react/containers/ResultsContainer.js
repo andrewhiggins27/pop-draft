@@ -6,6 +6,8 @@ import Teams from '../components/Teams'
 const ResultsContainer = props => {
   const [game, setGame] = useState({})
   const [chosen, setChosen] = useState(null)
+  const [successMsg, setSuccessMsg] = useState(null)
+  const [errors, setErrors] = useState("")
 
   let gameId = props.match.params.id
 
@@ -35,6 +37,42 @@ const ResultsContainer = props => {
     } else {
       setChosen(chosenId)
     }
+  }
+
+  const handleClick = event =>{
+    event.preventDefault()
+    fetch(`/api/v1/teams/${chosen}`, {
+      credentials: "same-origin",
+      method: "PATCH",
+      body: JSON.stringify({
+        gameId: props.match.params.id
+      }),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      }
+    })
+    .then(response => {
+      if (response.ok) {
+        return response
+      } else {
+        let errorMessage = `${response.status} (${response.statusText})`
+        let error = new Error(errorMessage)
+        throw error
+      }
+    })
+    .then(response => response.json())
+    .then(body => {
+      if (body.error) {
+        setErrors(body.error)
+        setChosen(null)
+      } else {
+        setGame(body.game)
+        setChosen(null)
+        setSuccessMsg("Vote Successful")
+      }
+    })
+    .catch((error) => console.error(`Error in fetch: ${error.message}`))
   }
 
   let draftPool
@@ -83,6 +121,7 @@ const ResultsContainer = props => {
           user={team.user}
           index={i}
           selections={team.selections}
+          votes={team.votes}
           chosenTeam={chosenTeam}
           chooseTeam={chooseTeam}
         />
@@ -92,10 +131,27 @@ const ResultsContainer = props => {
     finalTeams = <></>
   }
 
+  let errorMessages
+  if (errors !== "") {
+    errorMessages = <h3>{errors}</h3>
+  } else {
+    errorMessages = <></>
+  }
+
+  let successMessages
+  if (successMsg) {
+    successMessages = <h3>{successMsg}</h3>
+  } else {
+    successMessages = <></>
+  }
+
   return(
     <div className='grid-container grid-x'>
+      {errorMessages}
       <h1 className='text-center cell'>Results</h1>
       <h1 className='cell'>Final Teams:</h1>
+      {chosen && <div className="button large cell alert" onClick={handleClick}>Vote!</div>}
+      {successMessages}
       <div className="grid-x">
         {finalTeams}
       </div>

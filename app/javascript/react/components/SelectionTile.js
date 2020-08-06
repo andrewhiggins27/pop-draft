@@ -15,7 +15,7 @@ const SelectionTile = props => {
   return (
     <div className={classes} onClick={handleClick}>
       <div className="card-divider">
-        <h4>{props.name}</h4>
+        <h4 className="selection-text">{props.name}</h4>
       </div>
       <div className="card-section">
         <img
