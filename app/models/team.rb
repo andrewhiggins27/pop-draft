@@ -1,4 +1,6 @@
 class Team < ApplicationRecord
+  acts_as_votable
+  
   belongs_to :game
   belongs_to :user, optional: true
 

@@ -11,14 +11,6 @@ const DraftContainer = props => {
   const [chosen, setChosen] = useState(null)
   const [currentPlayer, setCurrentPlayer] = useState(0)
   const [round, setRound] = useState("")
-  
-  const chooseSelection = (selectionID) => {
-    if (selectionID === chosen) {
-      setChosen(null)
-    } else {
-      setChosen(selectionID)
-    }
-  }
 
   useEffect(() => {
     fetch(`/api/v1/pools/${props.poolId}`, {
@@ -69,6 +61,14 @@ const DraftContainer = props => {
       setRound(body.game.round)
     })
     .catch((error) => console.error(`Error in fetch: ${error.message}`))
+  }
+
+  const chooseSelection = (selectionID) => {
+    if (selectionID === chosen) {
+      setChosen(null)
+    } else {
+      setChosen(selectionID)
+    }
   }
 
   const makeSelection = (selection, player) => { 

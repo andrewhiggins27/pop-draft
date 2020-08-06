@@ -35,6 +35,7 @@ const Teams = props => {
     <div className={classes} onClick={clickHandler}>
       <h2 className="cell">{teamName}</h2>
       {selectionTiles}
+      <h2 className="cell">Votes: {props.votes}</h2>
     </div>
   )
 }
