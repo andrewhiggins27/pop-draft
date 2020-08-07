@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react'
 import { Redirect } from "react-router-dom";
 
 import SelectionTile from '../components/SelectionTile'
+import Teams from '../components/Teams'
 
 const DraftContainer = props => {
+  const [game, setGame] = useState({})
   const [draftClass, setDraftClass] = useState([])
   const [selections, setSelections] = useState([])
+  const [teams, setTeams] = useState([])
   const [teamOneSelections, setTeamOneSelections] = useState([])
   const [teamTwoSelections, setTeamTwoSelections] = useState([])
   const [chosen, setChosen] = useState(null)
@@ -13,8 +16,16 @@ const DraftContainer = props => {
   const [round, setRound] = useState("")
 
   useEffect(() => {
-    fetch(`/api/v1/pools/${props.poolId}`, {
-      credentials: 'same-origin'
+    fetch(`/api/v1/pools/${props.poolId}`,{
+      credentials: "same-origin",
+      method: "PATCH",
+      body: JSON.stringify({
+        numberOfPlayers: props.numberOfPlayers
+      }),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      }
     })
       .then(response => {
         if (response.ok) {
@@ -27,9 +38,12 @@ const DraftContainer = props => {
       })
       .then(response => response.json())
       .then(body => {
-        setRound("1")
-        setSelections(body.draft_class.selections)
-        setDraftClass(body.draft_class)
+        setGame(body.game)
+        setRound(body.game.round)
+        setCurrentPlayer(body.game.current_player)
+        setSelections(body.game.selections)
+        setDraftClass(body.game.draft_class)
+        setTeams(body.game.teams)
       })
       .catch(error => console.error(`Error in fetch: ${error.message}`))
   }, [])
@@ -55,10 +69,11 @@ const DraftContainer = props => {
     })
     .then(response => response.json())
     .then(body => {
-      setTeamOneSelections(body.game.teams[0].selections)
-      setTeamTwoSelections(body.game.teams[1].selections)
+      setGame(body.game)
+      setTeams(body.game.teams)
       setSelections(body.game.selections)
       setRound(body.game.round)
+      setCurrentPlayer(body.game.current_player)
     })
     .catch((error) => console.error(`Error in fetch: ${error.message}`))
   }
@@ -75,11 +90,6 @@ const DraftContainer = props => {
     let payload = {selection: selection, player: player, round: round}
     fetchPatch(payload, `/api/v1/games/${draftClass.game.id}`)
     setChosen(null)
-    if (player === 0) {
-      setCurrentPlayer(1)
-    } else if (player === 1) {
-      setCurrentPlayer(0)
-    }
   }
 
   const draftClick = event => {
@@ -107,29 +117,20 @@ const DraftContainer = props => {
     )
   })
 
-  const teamOneSelectionTiles = teamOneSelections.map(selection => {
-    return(
-      <SelectionTile
-        key={selection.id}
-        name={selection.name}
-        description={selection.description}
-        image={selection.image}
+  const teamsComponents = teams.map((team, i) => {
+    return (
+      <Teams 
+        key={team.id}
+        id={team.id}
+        user={team.user}
+        index={i}
+        selections={team.selections}
+        draftInProgress={true}
       />
     )
   })
 
-  const teamTwoSelectionTiles = teamTwoSelections.map(selection => {
-    return(
-      <SelectionTile
-        key={selection.id}
-        name={selection.name}
-        description={selection.description}
-        image={selection.image}
-      />
-    )
-  })
-
-  if (teamOneSelections.length === 6 && teamTwoSelections.length === 6) {
+  if (game.round === "complete") {
     return (
       <Redirect to={`/games/${draftClass.game.id}`} />
     )
@@ -140,21 +141,24 @@ const DraftContainer = props => {
     currentRound = <h2 className='text-center'>FINAL ROUND</h2>
   }
 
+  let playerTurn
+  if (game.teams) {
+    if (game.teams[currentPlayer].user) {
+      playerTurn = <h2 className="text-center">{game.teams[currentPlayer.user.email]}'s Turn</h2>
+    } else {
+    playerTurn = <h2 className="text-center">{`Team ${currentPlayer + 1}'s Turn`}</h2>
+    }
+  }
+
   return(
     <div className='grid-y'>
       {currentRound}
-      {chosen && <div className="button large" onClick={draftClick}>Draft!</div>}
+      {playerTurn}
       <div className='grid-x cell'>
-        <div className="cell large-2 text-center">
-          Team One:
-          {teamOneSelectionTiles}
-        </div>
+        {teamsComponents}
+        {chosen && <div className="button large cell alert" onClick={draftClick}>Draft!</div>}
         <div className='grid-container grid-x cell large-8'>
           {selectionTiles}
-        </div>
-        <div className="cell large-2 text-center">
-          Team Two:
-          {teamTwoSelectionTiles}
         </div>
       </div>
     </div>

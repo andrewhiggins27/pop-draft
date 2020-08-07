@@ -11,8 +11,31 @@ class Api::V1::GamesController < ApplicationController
     team = game.teams[params["player"].to_i]
     team.selections << selection
     game.selections.destroy(selection)
+    current_player = game.current_player
 
-    if game.teams[0].selections.count == game.teams[1].selections.count
+    if game.teams.count == 2
+      if current_player == 0
+        game.current_player = 1
+        game.save
+      elsif current_player == 1
+        game.current_player = 0
+        game.save
+      end
+    else
+      if game.round.to_i.odd? 
+        unless game.teams[current_player] == game.teams.last
+          game.current_player = current_player + 1
+          game.save
+        end
+      else
+        unless game.teams[current_player] == game.teams.first
+          game.current_player = current_player - 1
+          game.save
+        end
+      end
+    end
+
+    if game.teams.first.selections.count == game.teams.last.selections.count
       game.round = (game.round.to_i + 1).to_s
       game.save
 
@@ -21,6 +44,8 @@ class Api::V1::GamesController < ApplicationController
         game.save
       end
     end
+
+    # binding.pry
 
     render json: game
   end
