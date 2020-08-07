@@ -5,19 +5,22 @@ class Api::V1::PoolsController < ApplicationController
     render json: Pool.all
   end
 
-  def show
+  def update
+    number_of_players = params["numberOfPlayers"].to_i
     pool = Pool.find(params["id"])
     game = Game.create
-    selections = pool.selections.sample(20)
+    selections = pool.selections.sample(10 * number_of_players)
     game.selections = selections
-    Team.create(game: game)
-    Team.create(game: game)
+    number_of_players.times do
+      Team.create(game: game)
+    end
+
     draft_class = DraftClass.create(
       pool: pool, 
       game: game, 
       selections: selections
     )
 
-    render json: draft_class
+    render json: game
   end
 end

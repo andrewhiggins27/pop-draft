@@ -4,7 +4,9 @@ import TeamSelectionTile from './TeamSelectionTile'
 
 const Teams = props => {
   const clickHandler = event =>{
-    props.chooseTeam(props.id)
+    if (props.chooseTeam) {
+      props.chooseTeam(props.id)
+    }
   }
 
   let selectionTiles = props.selections.map(selection => {
@@ -31,11 +33,16 @@ const Teams = props => {
     classes += " chosen-tile"
   }
 
+  let voteTotal = <h2 className="cell">Votes: {props.votes}</h2>
+  if (props.draftInProgress) {
+    voteTotal = <></>
+  }
+
   return (
     <div className={classes} onClick={clickHandler}>
       <h2 className="cell">{teamName}</h2>
       {selectionTiles}
-      <h2 className="cell">Votes: {props.votes}</h2>
+      {voteTotal}
     </div>
   )
 }
