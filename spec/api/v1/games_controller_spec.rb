@@ -22,7 +22,7 @@ RSpec.describe Api::V1::GamesController, type: :controller do
 
       returned_json = JSON.parse(response.body)
 
-      expect(returned_json["game"].count).to eq(5)
+      expect(returned_json["game"].count).to eq(6)
       expect(returned_json["game"]["round"]).to eq "complete"
     end
   end

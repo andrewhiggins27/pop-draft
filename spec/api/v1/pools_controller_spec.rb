@@ -26,35 +26,38 @@ RSpec.describe Api::V1::PoolsController, type: :controller do
       expect(returned_json["pools"].count).to eq(3)
     end
   end
-  describe "GET#Show" do
+
+  describe "GET#Update" do
     it "return a status of 200" do
-      get :show, params: {id: pool1.id}
+      patch :update, params: {id: pool1.id, numberOfPlayers: "2"}
       
       expect(response.status).to eq 200
       expect(response.content_type).to eq "application/json"
     end
 
     it "initializes a new game" do
-      get :show, params: {id: pool1.id}
+      patch :update, params: {id: pool1.id, numberOfPlayers: "2"}
 
       expect(Game.all.count).to eq(1)
     end
 
     it "creates teams associated with the newly created game" do
-      get :show, params: {id: pool1.id}
+      patch :update, params: {id: pool1.id, numberOfPlayers: "2"}
 
       expect(Game.last.teams.count).to eq(2)
     end
 
-    it "returns a draft class object" do
-      get :show, params: {id: pool1.id}
+    it "returns a game object" do
+      patch :update, params: {id: pool1.id, numberOfPlayers: "2"}
 
       returned_json = JSON.parse(response.body)
 
       expect(returned_json.length).to eq(1)
-      expect(returned_json["draft_class"]["selections"].count).to eq(3)
-      expect(returned_json["draft_class"]["pool"]["name"]).to eq(pool1.name)
-      expect(returned_json["draft_class"]["game"].count).to eq(5)
+      expect(returned_json["game"]["teams"].count).to eq(2)
+      expect(returned_json["game"]["selections"].count).to eq(3)
+      expect(returned_json["game"]["draft_class"]["selections"].count).to eq(3)
+      expect(returned_json["game"]["round"]).to eq("1")
+      expect(returned_json["game"]["current_player"]).to eq(0)
     end
   end
 end

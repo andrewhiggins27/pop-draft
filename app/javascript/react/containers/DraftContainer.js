@@ -2,19 +2,26 @@ import React, { useState, useEffect } from 'react'
 import { Redirect } from "react-router-dom";
 
 import SelectionTile from '../components/SelectionTile'
+import Teams from '../components/Teams'
 
 const DraftContainer = props => {
-  const [draftClass, setDraftClass] = useState([])
-  const [selections, setSelections] = useState([])
-  const [teamOneSelections, setTeamOneSelections] = useState([])
-  const [teamTwoSelections, setTeamTwoSelections] = useState([])
+  const [game, setGame] = useState({
+    selections: [],
+    teams: []
+  })
   const [chosen, setChosen] = useState(null)
-  const [currentPlayer, setCurrentPlayer] = useState(0)
-  const [round, setRound] = useState("")
 
   useEffect(() => {
-    fetch(`/api/v1/pools/${props.poolId}`, {
-      credentials: 'same-origin'
+    fetch(`/api/v1/pools/${props.poolId}`,{
+      credentials: "same-origin",
+      method: "PATCH",
+      body: JSON.stringify({
+        numberOfPlayers: props.numberOfPlayers
+      }),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      }
     })
       .then(response => {
         if (response.ok) {
@@ -27,9 +34,7 @@ const DraftContainer = props => {
       })
       .then(response => response.json())
       .then(body => {
-        setRound("1")
-        setSelections(body.draft_class.selections)
-        setDraftClass(body.draft_class)
+        setGame(body.game)
       })
       .catch(error => console.error(`Error in fetch: ${error.message}`))
   }, [])
@@ -55,10 +60,7 @@ const DraftContainer = props => {
     })
     .then(response => response.json())
     .then(body => {
-      setTeamOneSelections(body.game.teams[0].selections)
-      setTeamTwoSelections(body.game.teams[1].selections)
-      setSelections(body.game.selections)
-      setRound(body.game.round)
+      setGame(body.game)
     })
     .catch((error) => console.error(`Error in fetch: ${error.message}`))
   }
@@ -72,23 +74,18 @@ const DraftContainer = props => {
   }
 
   const makeSelection = (selection, player) => { 
-    let payload = {selection: selection, player: player, round: round}
-    fetchPatch(payload, `/api/v1/games/${draftClass.game.id}`)
+    let payload = {selection: selection, player: player, round: game.round}
+    fetchPatch(payload, `/api/v1/games/${game.id}`)
     setChosen(null)
-    if (player === 0) {
-      setCurrentPlayer(1)
-    } else if (player === 1) {
-      setCurrentPlayer(0)
-    }
   }
 
   const draftClick = event => {
     event.preventDefault()
-    let draftPick = selections.find(selection => selection.id === chosen)
-    makeSelection(draftPick.id, currentPlayer)
+    let draftPick = game.selections.find(selection => selection.id === chosen)
+    makeSelection(draftPick.id, game.current_player)
   }
 
-  const selectionTiles = selections.map((selection) => {
+  const selectionTiles = game.selections.map((selection) => {
     let chosenTile = false
     if (chosen === selection.id) {
       chosenTile = true
@@ -107,54 +104,48 @@ const DraftContainer = props => {
     )
   })
 
-  const teamOneSelectionTiles = teamOneSelections.map(selection => {
-    return(
-      <SelectionTile
-        key={selection.id}
-        name={selection.name}
-        description={selection.description}
-        image={selection.image}
-      />
-    )
-  })
-
-  const teamTwoSelectionTiles = teamTwoSelections.map(selection => {
-    return(
-      <SelectionTile
-        key={selection.id}
-        name={selection.name}
-        description={selection.description}
-        image={selection.image}
-      />
-    )
-  })
-
-  if (teamOneSelections.length === 6 && teamTwoSelections.length === 6) {
+  const teamsComponents = game.teams.map((team, i) => {
     return (
-      <Redirect to={`/games/${draftClass.game.id}`} />
+      <Teams 
+        key={team.id}
+        id={team.id}
+        user={team.user}
+        index={i}
+        selections={team.selections}
+        draftInProgress={true}
+      />
+    )
+  })
+
+  if (game.round === "complete") {
+    return (
+      <Redirect to={`/games/${game.id}`} />
     )
   }
 
-  let currentRound = <h2 className='text-center'>Round {round}</h2>
-  if (round === "6") {
+  let currentRound = <h2 className='text-center'>Round {game.round}</h2>
+  if (game.round === "6") {
     currentRound = <h2 className='text-center'>FINAL ROUND</h2>
+  }
+
+  let playerTurn
+  if (game.teams[game.current_player]) {
+    if (game.teams[game.current_player].user) {
+      playerTurn = <h2 className="text-center">{game.teams[game.current_player].user.email}'s Turn</h2>
+    } else {
+    playerTurn = <h2 className="text-center">{`Team ${game.current_player + 1}'s Turn`}</h2>
+    }
   }
 
   return(
     <div className='grid-y'>
       {currentRound}
-      {chosen && <div className="button large" onClick={draftClick}>Draft!</div>}
+      {playerTurn}
       <div className='grid-x cell'>
-        <div className="cell large-2 text-center">
-          Team One:
-          {teamOneSelectionTiles}
-        </div>
+        {teamsComponents}
+        {chosen && <div className="button large cell alert" onClick={draftClick}>Draft!</div>}
         <div className='grid-container grid-x cell large-8'>
           {selectionTiles}
-        </div>
-        <div className="cell large-2 text-center">
-          Team Two:
-          {teamTwoSelectionTiles}
         </div>
       </div>
     </div>
