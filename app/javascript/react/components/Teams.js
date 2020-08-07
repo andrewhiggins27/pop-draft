@@ -4,7 +4,9 @@ import TeamSelectionTile from './TeamSelectionTile'
 
 const Teams = props => {
   const clickHandler = event =>{
-    props.chooseTeam(props.id)
+    if (props.chooseTeam) {
+      props.chooseTeam(props.id)
+    }
   }
 
   let selectionTiles = props.selections.map(selection => {
