@@ -33,10 +33,6 @@ MIYAZAKI_CHARS = [
   {
     title: "Porco Rosso",
     url: "https://api.jikan.moe/v3/anime/416/characters_staff"
-  },
-  {
-    title: "Castle in the Sky",
-    url: "https://api.jikan.moe/v3/anime/513/characters_staff"
   }
 ]
 

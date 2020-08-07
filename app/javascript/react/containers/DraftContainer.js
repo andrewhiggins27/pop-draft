@@ -141,8 +141,10 @@ const DraftContainer = props => {
     <div className='grid-y'>
       {currentRound}
       {playerTurn}
+        <div className='grid-x'>
+          {teamsComponents}
+        </div>
       <div className='grid-x cell'>
-        {teamsComponents}
         {chosen && <div className="button large cell alert" onClick={draftClick}>Draft!</div>}
         <div className='grid-container grid-x cell large-8'>
           {selectionTiles}

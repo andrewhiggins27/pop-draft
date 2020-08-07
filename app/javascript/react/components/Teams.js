@@ -28,7 +28,7 @@ const Teams = props => {
     teamName = props.user.username
   }
 
-  let classes = "cell large-6 small-12 callout text-center results-team grid-x"
+  let classes = "cell large-3 small-12 callout text-center results-team grid-x"
   if (props.chosenTeam) {
     classes += " chosen-tile"
   }
