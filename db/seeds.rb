@@ -42,6 +42,7 @@ MIYAZAKI_CHARS = [
 
 Selection.destroy_all
 Pool.destroy_all
+Game.destroy_all
 
 pokemon_pool = Pool.create(name: "First 150 Pokemon")
 

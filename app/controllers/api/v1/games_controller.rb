@@ -5,7 +5,7 @@ class Api::V1::GamesController < ApplicationController
     completed_games = Game.where({round: 'complete'})
     random_game = completed_games.sample
 
-    render json: { redirect_id: random_game["id"]}
+    render json: random_game
   end
 
   def show

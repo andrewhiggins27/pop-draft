@@ -9,7 +9,6 @@ const ResultsContainer = props => {
   const [chosen, setChosen] = useState(null)
   const [successMsg, setSuccessMsg] = useState(null)
   const [errors, setErrors] = useState("")
-  const [redirectId, setRedirectId] = useState(null)
 
   useEffect(() => {
     let gameId = props.match.params.id
@@ -56,7 +55,7 @@ const ResultsContainer = props => {
     })
     .then(response => response.json())
     .then(body => {
-      setRedirectId(body.redirect_id)
+      setGame(body.game)
     })
     .catch((error) => console.error(`Error in fetch: ${error.message}`))
   }
@@ -67,7 +66,7 @@ const ResultsContainer = props => {
       credentials: "same-origin",
       method: "PATCH",
       body: JSON.stringify({
-        gameId: props.match.params.id
+        gameId: game.id
       }),
       headers: {
         Accept: "application/json",
@@ -165,12 +164,6 @@ const ResultsContainer = props => {
     successMessages = <h3>{successMsg}</h3>
   } else {
     successMessages = <></>
-  }
-
-  if (redirectId) {
-   return(
-      <Redirect to={`/games/${redirectId}`} />
-    )
   }
 
   return(
