@@ -173,7 +173,7 @@ const ResultsContainer = props => {
         <h1 className='cell small-6'>Results</h1>
         <div className="button cell large small-6" onClick={handleNewResultsClick}>View Another Game</div>
       </div>
-      <h1 className='cell'>Final Teams:</h1>
+      <h1 className='cell'>Final Teams: (Vote for the winner!)</h1>
       {chosen && <div className="button large cell alert" onClick={handleVoteClick}>Vote!</div>}
       {successMessages}
       <div className="grid-x">
