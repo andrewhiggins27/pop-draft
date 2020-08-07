@@ -1,6 +1,13 @@
 class Api::V1::GamesController < ApplicationController
   protect_from_forgery unless: -> { request.format.json? }
 
+  def index
+    completed_games = Game.where({round: 'complete'})
+    random_game = completed_games.sample
+
+    render json: random_game
+  end
+
   def show
     render json: Game.find(params["id"])
   end

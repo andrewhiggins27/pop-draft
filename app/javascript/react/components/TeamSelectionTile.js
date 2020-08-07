@@ -4,7 +4,7 @@ const TeamSelectionTiles = props => {
   let classes = "small-2 card results-spacing"
 
   if (props.resultsTeam) {
-    classes = "small-6 large-5 card results-spacing"
+    classes = "small-3 card results-spacing"
   }
   return(
     <div className={classes}>

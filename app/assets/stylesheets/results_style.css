@@ -8,8 +8,13 @@
 
 .results-team {
   margin: 2rem;
+  max-width: 20rem;
 }
 
 .results-spacing{
   margin-right: 1rem;
+}
+
+h4{
+  font-size: .8rem;
 }

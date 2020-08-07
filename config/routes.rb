@@ -7,8 +7,8 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   namespace :api do
     namespace :v1 do
-      resources :pools, only: [:index, :show, :update]
-      resources :games, only: [:show, :update]
+      resources :pools, only: [:index, :update]
+      resources :games, only: [:index, :show, :update]
       resources :teams, only: [:update]
     end
   end

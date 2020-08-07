@@ -28,7 +28,7 @@ const Teams = props => {
     teamName = props.user.username
   }
 
-  let classes = "cell large-5 small-8 callout text-center results-team grid-x"
+  let classes = "cell large-6 small-12 callout text-center results-team grid-x"
   if (props.chosenTeam) {
     classes += " chosen-tile"
   }
@@ -40,7 +40,7 @@ const Teams = props => {
 
   return (
     <div className={classes} onClick={clickHandler}>
-      <h2 className="cell">{teamName}</h2>
+      <h2 className="cell text-center">{teamName}</h2>
       {selectionTiles}
       {voteTotal}
     </div>
