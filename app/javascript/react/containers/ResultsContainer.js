@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Redirect } from 'react-router-dom'
 
 import TeamSelectionTile from '../components/TeamSelectionTile'
 import Teams from '../components/Teams'
@@ -8,10 +9,10 @@ const ResultsContainer = props => {
   const [chosen, setChosen] = useState(null)
   const [successMsg, setSuccessMsg] = useState(null)
   const [errors, setErrors] = useState("")
-
-  let gameId = props.match.params.id
+  const [redirectId, setRedirectId] = useState(null)
 
   useEffect(() => {
+    let gameId = props.match.params.id
     fetch(`/api/v1/games/${gameId}`, {
       credentials: 'same-origin'
     })
@@ -39,7 +40,28 @@ const ResultsContainer = props => {
     }
   }
 
-  const handleClick = event =>{
+  const handleNewResultsClick = event => {
+    event.preventDefault()
+    fetch(`/api/v1/games`, {
+      credentials: "same-origin"
+    })
+    .then(response => {
+      if (response.ok) {
+        return response
+      } else {
+        let errorMessage = `${response.status} (${response.statusText})`
+        let error = new Error(errorMessage)
+        throw error
+      }
+    })
+    .then(response => response.json())
+    .then(body => {
+      setRedirectId(body.redirect_id)
+    })
+    .catch((error) => console.error(`Error in fetch: ${error.message}`))
+  }
+
+  const handleVoteClick = event => {
     event.preventDefault()
     fetch(`/api/v1/teams/${chosen}`, {
       credentials: "same-origin",
@@ -145,12 +167,21 @@ const ResultsContainer = props => {
     successMessages = <></>
   }
 
+  if (redirectId) {
+   return(
+      <Redirect to={`/games/${redirectId}`} />
+    )
+  }
+
   return(
-    <div className='grid-container grid-x'>
+    <div className='grid-container'>
       {errorMessages}
-      <h1 className='text-center cell'>Results</h1>
+      <div className="grid-x grid-padding-x">
+        <h1 className='cell small-6'>Results</h1>
+        <div className="button cell large small-6" onClick={handleNewResultsClick}>View Another Game</div>
+      </div>
       <h1 className='cell'>Final Teams:</h1>
-      {chosen && <div className="button large cell alert" onClick={handleClick}>Vote!</div>}
+      {chosen && <div className="button large cell alert" onClick={handleVoteClick}>Vote!</div>}
       {successMessages}
       <div className="grid-x">
         {finalTeams}
