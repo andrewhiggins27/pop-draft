@@ -1,5 +1,5 @@
 .team-tile {
-  max-width: 6rem;
+  max-width: 8rem;
   border-style: solid;
   border-radius: 10%;
   margin-left: 1rem;
@@ -7,14 +7,17 @@
 }
 
 .results-team {
-  margin: 2rem;
-  max-width: 20rem;
+  text-align: left;
 }
 
-.results-spacing{
-  margin-right: 1rem;
+.team-selection-tile {
+  max-height: 18rem;
 }
 
-h4{
+h4 {
   font-size: .8rem;
+}
+
+.results-draft-pool-text {
+  font-size: 2rem;
 }

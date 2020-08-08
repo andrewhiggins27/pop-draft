@@ -123,9 +123,9 @@ const DraftContainer = props => {
     )
   }
 
-  let currentRound = <h2 className='text-center'>Round {game.round}</h2>
+  let currentRound = <h2 className='text-center round-text'>Round {game.round}</h2>
   if (game.round === "6") {
-    currentRound = <h2 className='text-center'>FINAL ROUND</h2>
+    currentRound = <h2 className='text-center round-text'>FINAL ROUND</h2>
   }
 
   let playerTurn
@@ -138,16 +138,19 @@ const DraftContainer = props => {
   }
 
   return(
-    <div className='grid-y'>
-      {currentRound}
-      {playerTurn}
-        <div className='grid-x'>
-          {teamsComponents}
-        </div>
-      <div className='grid-x cell'>
-        {chosen && <div className="button large cell alert" onClick={draftClick}>Draft!</div>}
-        <div className='grid-container grid-x cell large-8'>
-          {selectionTiles}
+    <div className='grid-container'>
+      <div className='grid-y'>
+        {currentRound}
+        {playerTurn}
+          <div className='grid-x'>
+            {teamsComponents}
+          </div>
+        <div className='grid-x cell'>
+          <div className='grid-container grid-x cell large-8'>
+            {chosen && <div className="button large cell alert" onClick={draftClick}>Draft!</div>}
+            {selectionTiles}
+            {chosen && <div className="button large cell alert" onClick={draftClick}>Draft!</div>}
+          </div>
         </div>
       </div>
     </div>

@@ -29,10 +29,6 @@ MIYAZAKI_CHARS = [
   {
     title: "Ponyo",
     url: "https://api.jikan.moe/v3/anime/2890/characters_staff"
-  },
-  {
-    title: "Porco Rosso",
-    url: "https://api.jikan.moe/v3/anime/416/characters_staff"
   }
 ]
 
@@ -40,8 +36,8 @@ Selection.destroy_all
 Pool.destroy_all
 Game.destroy_all
 
+# First 150 Pokemon
 pokemon_pool = Pool.create(name: "First 150 Pokemon")
-
 num = 1
 while num <= 150 do
   pokemon_conn = Faraday.new(url: "https://pokeapi.co/api/v2/pokemon/#{num}") do |faraday|
@@ -70,6 +66,8 @@ while num <= 150 do
   num = num + 1
 end
 
+# Hayao Miyazaki Characters
+
 miyazaki_pool = Pool.create(name: "Hayao Miyazaki Characters")
 MIYAZAKI_CHARS.each do |movie|
   description = movie[:title]
@@ -95,11 +93,7 @@ end
 Selection.where({
    image: "https://cdn.myanimelist.net/images/questionmark_23.gif?s=f7dcbc4a4603d18356d3dfef8abd655c"
 }).destroy_all
-
-
-
-
-
+Selection.where({name: "Makkuro-Kurosuke"}).last.destroy
 
 # Myazaki characters
 # Spirited Away
