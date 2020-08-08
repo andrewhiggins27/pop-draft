@@ -105,6 +105,7 @@ const ResultsContainer = props => {
           name={selection.name}
           description={selection.description}
           image={selection.image}
+          resultsDraftPool={true}
         />
       )
     })
@@ -121,6 +122,7 @@ const ResultsContainer = props => {
           name={selection.name}
           description={selection.description}
           image={selection.image}
+          resultsDraftPool={true}
         />
       )
     })
@@ -166,19 +168,28 @@ const ResultsContainer = props => {
     successMessages = <></>
   }
 
+  let  poolName
+  if (game.draft_class) {
+    poolName = <h1>{game.draft_class.pool.name}</h1>
+  }
+
   return(
     <div className='grid-container'>
       {errorMessages}
+      {poolName}
       <div className="grid-x grid-padding-x">
-        <h1 className='cell small-6'>Results</h1>
-        <div className="button cell large small-6" onClick={handleNewResultsClick}>View Another Game</div>
+        <h2 className='cell small-6'>Results</h2>
+        <div className="button cell large small-6" onClick={handleNewResultsClick}>
+          View Another Game
+        </div>
       </div>
       <h1 className='cell'>Final Teams: (Vote for the winner!)</h1>
-      {chosen && <div className="button large cell alert" onClick={handleVoteClick}>Vote!</div>}
+      {chosen && <div className="button large cell alert" onClick={handleVoteClick}>Submit Vote!</div>}
       {successMessages}
       <div className="grid-x">
         {finalTeams}
       </div>
+      {chosen && <div className="button large cell alert" onClick={handleVoteClick}>Submit Vote!</div>}
       <div>
         <h2>Draft Pool:</h2>
         <div className='callout cell grid-x'>
