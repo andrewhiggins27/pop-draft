@@ -8,14 +8,14 @@ const PoolTile = props => {
     <div className="card cell small-4">
       <Link to={`/pools/${props.id}`}>
         <div className="card-divider">
-          <h2>{props.name}</h2>
+          <h3>{props.name}</h3>
         </div>
       </Link>
       <div className="card-section" style={{
         backgroundImage: `url(${props.image})`,
         backgroundSize: 'cover',
-        padding: '5rem',
-        paddingBottom: '18rem'
+        padding: '7rem',
+        paddingBottom: '10rem'
       }}>
       </div>
     </div>

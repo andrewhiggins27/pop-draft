@@ -10,13 +10,18 @@ const Teams = props => {
   }
 
   let selectionTiles = props.selections.map(selection => {
+    let resultsTeam = true
+    if (props.draftInProgress) {
+      resultsTeam = false
+    }
+
     return (
       <TeamSelectionTile
         key={selection.id}
         name={selection.name}
         description={selection.description}
         image={selection.image}
-        resultsTeam={true}
+        resultsTeam={resultsTeam}
       />
     )
   })
@@ -28,7 +33,7 @@ const Teams = props => {
     teamName = props.user.username
   }
 
-  let classes = "cell large-6 small-6 callout results-team grid-x"
+  let classes = "cell large-6 medium-12 callout results-team grid-x"
   if (props.chosenTeam) {
     classes += " chosen-tile"
   }
@@ -43,6 +48,7 @@ const Teams = props => {
       <h5 className="cell">{teamName}</h5>
       {selectionTiles}
       {voteTotal}
+      <br className="cell"></br>
     </div>
   )
 }

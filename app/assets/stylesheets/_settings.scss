@@ -69,11 +69,11 @@ $global-font-size: 100%;
 $global-width: rem-calc(1400);
 $global-lineheight: 1.5;
 $foundation-palette: (
-  primary: #4ECDC4,
-  secondary: #556270,
-  success: #C7F464,
-  warning: #FF6B6B,
-  alert: #C44D58,
+  primary: #5E9FA3,
+  secondary: #DCD1B4,
+  success: #FAB87F,
+  warning: #F87E7B,
+  alert: #B05574,
 );
 $light-gray: #e6e6e6;
 $medium-gray: #cacaca;
@@ -82,7 +82,7 @@ $black: #0a0a0a;
 $white: #fefefe;
 $body-background: $white;
 $body-font-color: $black;
-$body-font-family: 'Chivo', Helvetica, Roboto, Arial, sans-serif;
+$body-font-family: 'Josefin Sans', Helvetica, Roboto, Arial, sans-serif;
 $body-antialiased: true;
 $global-margin: 1rem;
 $global-padding: 1rem;
@@ -329,8 +329,8 @@ $buttongroup-radius-on-each: true;
 // 13. Callout
 // -----------
 
-$callout-background: #745d82;
-$callout-background-fade: 85%;
+$callout-background: #DCD1B4;
+$callout-background-fade: 70%;
 $callout-border: 1px solid rgba($black, 0.25);
 $callout-margin: 0 0 1rem 0;
 $callout-sizes: (
@@ -348,8 +348,8 @@ $callout-link-tint: 30%;
 
 $card-background: $white;
 $card-font-color: $body-font-color;
-$card-divider-background: #d2f7f5;
-$card-border: 1px solid $light-gray;
+$card-divider-background: #FAB87F;
+$card-border: 1px solid $black;
 $card-shadow: none;
 $card-border-radius: $global-radius;
 $card-padding: $global-padding;
@@ -871,7 +871,7 @@ $tooltip-radius: $global-radius;
 // 55. Top Bar
 // -----------
 
-$topbar-padding: 0.5rem;
+$topbar-padding: .1rem;
 $topbar-background: $light-gray;
 $topbar-submenu-background: $topbar-background;
 $topbar-title-spacing: 0.5rem 1rem 0.5rem 0;

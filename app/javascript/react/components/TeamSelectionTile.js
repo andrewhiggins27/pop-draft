@@ -1,23 +1,23 @@
 import React from 'react'
 
 const TeamSelectionTiles = props => {
-  let topLevelClasses = "cell small-4"
-  let classes = "small-2 card team-selection-tile"
+  let classes = "cell small-4 card team-selection-tile"
   let imageClasses = "card-section draft-team-images"
+  let h4Classes = "draft-team-text"
 
-  let h4Classes = ""
   if (props.resultsTeam) {
     classes = "small-4 card team-selection-tile"
+    imageClasses = "card-section results-team-images"
+    h4Classes = "results-teams-text"
   }
 
   if (props.resultsDraftPool) {
-    topLevelClasses = "cell small-3"
+    classes = "small-4 large-2 card team-selection-tile"
+    imageClasses = "card-section results-draft-pool-images"
     h4Classes = "results-draft-pool-text"
   }
 
-
   return(
-    <div className={topLevelClasses}>
       <div className={classes}>
         <div className="card-divider">
           <h4 className={h4Classes}>{props.name}</h4>
@@ -28,14 +28,7 @@ const TeamSelectionTiles = props => {
         >
         </div>
       </div>
-    </div>
   )
 }
 
 export default TeamSelectionTiles
-
-
-// <img
-// src={props.image}
-// alt={`image of ${props.name}`}
-// />
