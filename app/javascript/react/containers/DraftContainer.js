@@ -131,28 +131,36 @@ const DraftContainer = props => {
   let playerTurn
   if (game.teams[game.current_player]) {
     if (game.teams[game.current_player].user) {
-      playerTurn = <h2 className="text-center">{game.teams[game.current_player].user.email}'s Turn</h2>
+      playerTurn = <h2 className="text-center player-turn">{game.teams[game.current_player].user.email}'s Turn</h2>
     } else {
-    playerTurn = <h2 className="text-center">{`Team ${game.current_player + 1}'s Turn`}</h2>
+    playerTurn = <h2 className="text-center player-turn">{`Team ${game.current_player + 1}'s Turn to Draft!`}</h2>
     }
   }
 
   return(
-    <div className='grid-container'>
-      <div className='grid-y'>
-        {currentRound}
+    <div className='grid-container draft-page'>
+      <div className='callout draft-info'>
+        <div className="current-round">
+          {currentRound}
+        </div>
         {playerTurn}
-          <div className='grid-x'>
-            {teamsComponents}
-          </div>
-        <div className='grid-x cell'>
-          <div className='grid-container grid-x cell large-8'>
-            {chosen && <div className="button large cell alert" onClick={draftClick}>Draft!</div>}
-            {selectionTiles}
-            {chosen && <div className="button large cell alert" onClick={draftClick}>Draft!</div>}
-          </div>
+      </div>
+        {chosen && <div className="button large cell alert" onClick={draftClick}>Draft!</div>}
+      <div className='grid-x'>
+        <div className="cell large-3">
+          {teamsComponents[0]}
+          {teamsComponents[2]}
+        </div>
+
+        <div className='grid-x cell large-6 draft-board'>
+          {selectionTiles}
+        </div>
+        <div className="cell large-3">
+          {teamsComponents[1]}
+          {teamsComponents[3]}
         </div>
       </div>
+        {chosen && <div className="button large cell alert" onClick={draftClick}>Draft!</div>}
     </div>
   )
 }

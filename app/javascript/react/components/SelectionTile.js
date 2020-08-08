@@ -1,8 +1,8 @@
 import React from 'react'
 
 const SelectionTile = props => {
-  let classes = "cell card large-3 small-4 text-center"
-  let cardDividerClasses = "card-divider"
+  let classes = "cell card large-2 small-4 text-center"
+  let cardDividerClasses = "card-divider selection-text-box"
 
   if (props.chosen) {
    classes += " chosen-tile"
@@ -26,10 +26,3 @@ const SelectionTile = props => {
 }
 
 export default SelectionTile
-
-
-// {/* <img
-// src={props.image}
-// alt={`image of ${props.name}`}
-// /> */}
-
