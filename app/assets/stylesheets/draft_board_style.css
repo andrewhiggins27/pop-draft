@@ -1,6 +1,7 @@
 .draft-page {
-  padding-right: .2rem;
-  padding-left: .2rem;
+  padding-right: .5rem;
+  padding-left: .5rem;
+  margin-bottom: 400px;
 }
 
 .team-selection-tile {
@@ -73,4 +74,27 @@
 
 .selection-text-box{
   padding-left: .3rem;
+}
+
+.hover-description {
+  position: relative;
+  z-index: 999;
+  width: 15rem;
+  height: 300px;
+  background-repeat: no-repeat;
+  background-size: cover;  
+  background-position: center center;
+  padding: .4rem;
+}
+
+.hover-name {
+  font-size: 2rem;
+  color: whitesmoke;
+  text-shadow: 2px 0 0 rgb(0, 0, 0), -2px 0 0 rgb(0, 0, 0), 0 2px 0 rgb(0, 0, 0), 0 -2px 0 rgb(0, 0, 0), 1px 1px rgb(0, 0, 0), -1px -1px 0 rgb(0, 0, 0), 1px -1px 0 rgb(0, 0, 0), -1px 1px 0 rgb(0, 0, 0);
+}
+
+.hover-info {
+  background: rgba(47, 100, 104, 0.331);
+  color: whitesmoke;
+  text-shadow: 2px 0 0 rgb(0, 0, 0), -2px 0 0 rgb(0, 0, 0), 0 2px 0 rgb(0, 0, 0), 0 -2px 0 rgb(0, 0, 0), 1px 1px rgb(0, 0, 0), -1px -1px 0 rgb(0, 0, 0), 1px -1px 0 rgb(0, 0, 0), -1px 1px 0 rgb(0, 0, 0);
 }
