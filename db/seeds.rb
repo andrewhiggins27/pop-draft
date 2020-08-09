@@ -41,23 +41,20 @@ Game.destroy_all
 pokemon_pool = Pool.create(name: "First 150 Pokemon")
 num = 1
 while num <= 150 do
-  pokemon_conn = Faraday.new(url: "https://pokeapi.co/api/v2/pokemon/#{num}") do |faraday|
-    faraday.adapter Faraday.default_adapter
-    faraday.response :json
-  end
-  species_conn = Faraday.new(url: "https://pokeapi.co/api/v2/pokemon-species/#{num}") do |faraday|
-    faraday.adapter Faraday.default_adapter
-    faraday.response :json
-  end
+  pokemon_conn = Faraday.get("https://pokeapi.co/api/v2/pokemon/#{num}")
+  pokemon_conn_response = JSON.parse(pokemon_conn.body)
 
-  pokemon_name = pokemon_conn.get.body["name"].capitalize()
+  species_conn = Faraday.get("https://pokeapi.co/api/v2/pokemon-species/#{num}")
+  species_conn_response = JSON.parse(species_conn.body)
 
-  pokemon_descriptions = species_conn.get.body["flavor_text_entries"]
+  pokemon_name = pokemon_conn_response["name"].capitalize()
+
+  pokemon_descriptions = species_conn_response["flavor_text_entries"]
   pokemon_descriptions = pokemon_descriptions.select { |x| x["language"]["name"] == "en" }
   pokemon_description = pokemon_descriptions[0]["flavor_text"]
   pokemon_description = pokemon_description.gsub("\n", " ")
   pokemon_description = pokemon_description.gsub("\f", " ")
-  pokemon_image = pokemon_conn.get.body["sprites"]["front_default"]
+  pokemon_image = pokemon_conn_response["sprites"]["front_default"]
 
   Selection.create(
     name: pokemon_name, 
@@ -75,12 +72,10 @@ miyazaki_pool = Pool.create(name: "Hayao Miyazaki Characters")
 MIYAZAKI_CHARS.each do |movie|
   description = movie[:title]
 
-  miyazaki_conn = Faraday.new(url: "#{movie[:url]}") do |faraday|
-    faraday.adapter Faraday.default_adapter
-    faraday.response :json
-  end
+  miyazaki_conn = Faraday.get("#{movie[:url]}")
+  miyazaki_conn_response = JSON.parse(miyazaki_conn.body)
 
-  characters_array = miyazaki_conn.get.body["characters"]
+  characters_array = miyazaki_conn_response["characters"]
   characters_array.each do |character|
     name = character["name"]
     image = character["image_url"]
@@ -100,19 +95,16 @@ Selection.where({name: "Makkuro-Kurosuke"}).last.destroy
 
 # SUPERHERO POOL
 # -------------------------
-superhero_pool = Pool.create(name: "SuperHeros")
+superhero_pool = Pool.create(name: "Superheros")
 
 num = 1
 while num <= 731 do
   key = ENV["SUPERHERO_KEY"]
   url = "https://www.superheroapi.com/api.php/#{key}/#{num}"
 
-  miyazaki_conn = Faraday.new(url: "#{url}") do |faraday|
-    faraday.adapter Faraday.default_adapter
-    faraday.response :json
-  end
+  superhero_conn = Faraday.get("#{url}")
+  superhero_object = JSON.parse(superhero_conn.body)
 
-  superhero_object = miyazaki_conn.get.body
   name = superhero_object["name"]
   biography = superhero_object["biography"]
   first_appearance = biography["first-appearance"]
