@@ -1,6 +1,7 @@
 .results-page{
   margin-right: 4rem;
   margin-left: 4rem;
+  margin-bottom: 300px
 }
 
 .team-tile {
@@ -37,13 +38,22 @@ h4 {
   background-size: cover;  
   background-position: center center;
   padding: 1rem;
-  padding-bottom: 7rem;
+  padding-bottom: 4rem;
 }
 
 .results-teams-text{
-  font-size: 1rem;
+  font-size: .8rem;
 }
 
 .pool-name {
   font-family: 'Londrina Shadow', cursive;
+}
+
+.final-teams{
+  margin-left: 5rem;
+  margin-right: 5rem;
+}
+
+.opacity-tile {
+  opacity: .3;
 }
