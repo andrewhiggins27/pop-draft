@@ -100,12 +100,11 @@ const DraftContainer = props => {
     }
 
     return(
-      <div className="cell large-2 medium-2 small-4">
+      <div className="cell large-2 medium-2 small-4" key={selection.id}>
         <ReactHover
           options={optionsCursorTrueWithMargin}>
           <Trigger type='trigger'>
             <SelectionTile
-              key={selection.id}
               id={selection.id}
               name={selection.name}
               description={selection.description}
