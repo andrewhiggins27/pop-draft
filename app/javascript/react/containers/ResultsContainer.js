@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { Redirect } from 'react-router-dom'
+import ReactHover, { Trigger, Hover } from 'react-hover'
 
+import HoverDescription from '../components/HoverDescription'
 import TeamSelectionTile from '../components/TeamSelectionTile'
 import Teams from '../components/Teams'
 
@@ -96,38 +97,51 @@ const ResultsContainer = props => {
     .catch((error) => console.error(`Error in fetch: ${error.message}`))
   }
 
+  const optionsCursorTrueWithMargin = {
+    followCursor: true,
+    shiftX: 20,
+    shiftY: 0,
+  }
+
   let draftPool
   if (game.draft_class) {
     draftPool = game.draft_class.selections.map(selection => {
+      let opacityClass = ""
+
+      game.teams.forEach((team) => {
+        team.selections.forEach((teamSelection) =>{
+          if (teamSelection.name === selection.name) {
+            opacityClass += " opacity-tile"
+          }
+        })
+      })
+
       return(
-        <TeamSelectionTile
-          key={selection.id}
-          name={selection.name}
-          description={selection.description}
-          image={selection.image}
-          resultsDraftPool={true}
-        />
+        <div className="small-4 large-2 card team-selection-tile" key={selection.id}>
+          <ReactHover options={optionsCursorTrueWithMargin}>
+            <Trigger type='trigger'>
+              <div className={opacityClass}>
+                <TeamSelectionTile
+                  name={selection.name}
+                  description={selection.description}
+                  image={selection.image}
+                  resultsDraftPool={true}
+                />
+              </div>
+            </Trigger>
+            <Hover type='hover'>
+              <HoverDescription
+                name={selection.name}
+                description={selection.description}
+                image={selection.image}
+              />
+            </Hover>
+          </ReactHover>
+        </div>
       )
     })
   } else {
     draftPool = <></>
-  }
-
-  let undrafted
-  if (game.selections) {
-    undrafted = game.selections.map(selection => {
-      return(
-        <TeamSelectionTile
-          key={selection.id}
-          name={selection.name}
-          description={selection.description}
-          image={selection.image}
-          resultsDraftPool={true}
-        />
-      )
-    })
-  } else {
-    undrafted = <></>
   }
 
   let finalTeams
@@ -186,20 +200,14 @@ const ResultsContainer = props => {
       <h1 className='cell'>Final Teams: (Vote for the winner!)</h1>
       {chosen && <div className="button large cell alert" onClick={handleVoteClick}>Submit Vote!</div>}
       {successMessages}
-      <div className="grid-x">
+      <div className="grid-x grid-margin-x final-teams">
         {finalTeams}
       </div>
       {chosen && <div className="button large cell alert" onClick={handleVoteClick}>Submit Vote!</div>}
       <div>
         <h2>Draft Pool:</h2>
-        <div className='callout cell grid-x'>
+        <div className='cell grid-x'>
           {draftPool}
-        </div>
-      </div>
-      <div>
-        <h2>Undrafted:</h2>
-        <div className='callout cell grid-x'>
-          {undrafted}
         </div>
       </div>
     </div>

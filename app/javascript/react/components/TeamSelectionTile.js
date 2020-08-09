@@ -12,7 +12,7 @@ const TeamSelectionTiles = props => {
   }
 
   if (props.resultsDraftPool) {
-    classes = "small-4 large-2 card team-selection-tile"
+    classes = ""
     imageClasses = "card-section results-draft-pool-images"
     h4Classes = "results-draft-pool-text"
   }
