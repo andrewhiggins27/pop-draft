@@ -52,8 +52,6 @@ class Api::V1::GamesController < ApplicationController
       end
     end
 
-    # binding.pry
-
     render json: game
   end
 end
