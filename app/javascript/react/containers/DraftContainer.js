@@ -100,7 +100,7 @@ const DraftContainer = props => {
     }
 
     return(
-      <div className="cell large-2 small-4">
+      <div className="cell large-2 medium-2 small-4">
         <ReactHover
           options={optionsCursorTrueWithMargin}>
           <Trigger type='trigger'>
