@@ -37,6 +37,7 @@ Pool.destroy_all
 Game.destroy_all
 
 # First 150 Pokemon
+# -------------------------
 pokemon_pool = Pool.create(name: "First 150 Pokemon")
 num = 1
 while num <= 150 do
@@ -51,7 +52,9 @@ while num <= 150 do
 
   pokemon_name = pokemon_conn.get.body["name"].capitalize()
 
-  pokemon_description = species_conn.get.body["flavor_text_entries"][0]["flavor_text"]
+  pokemon_descriptions = species_conn.get.body["flavor_text_entries"]
+  pokemon_descriptions = pokemon_descriptions.select { |x| x["language"]["name"] == "en" }
+  pokemon_description = pokemon_descriptions[0]["flavor_text"]
   pokemon_description = pokemon_description.gsub("\n", " ")
   pokemon_description = pokemon_description.gsub("\f", " ")
   pokemon_image = pokemon_conn.get.body["sprites"]["front_default"]
@@ -67,7 +70,7 @@ while num <= 150 do
 end
 
 # Hayao Miyazaki Characters
-
+# --------------------------
 miyazaki_pool = Pool.create(name: "Hayao Miyazaki Characters")
 MIYAZAKI_CHARS.each do |movie|
   description = movie[:title]
@@ -95,30 +98,33 @@ Selection.where({
 }).destroy_all
 Selection.where({name: "Makkuro-Kurosuke"}).last.destroy
 
-# Myazaki characters
-# Spirited Away
-# https://api.jikan.moe/v3/anime/199/characters_staff
+# SUPERHERO POOL
+# -------------------------
+superhero_pool = Pool.create(name: "SuperHeros")
 
-# Howl's Moving Castle
-# https://api.jikan.moe/v3/anime/431/characters_staff
+num = 1
+while num <= 731 do
+  key = ENV["SUPERHERO_KEY"]
+  url = "https://www.superheroapi.com/api.php/#{key}/#{num}"
 
-# My Neighbor Totoro
-# https://api.jikan.moe/v3/anime/523/characters_staff
+  miyazaki_conn = Faraday.new(url: "#{url}") do |faraday|
+    faraday.adapter Faraday.default_adapter
+    faraday.response :json
+  end
 
-# Princess Mononoke
-# https://api.jikan.moe/v3/anime/164/characters_staff
+  superhero_object = miyazaki_conn.get.body
+  name = superhero_object["name"]
+  biography = superhero_object["biography"]
+  first_appearance = biography["first-appearance"]
+  publisher = biography["publisher"]
+  description = "First Appearance:\n#{first_appearance}\n\nPublisher:\n#{publisher}"
+  image = superhero_object["image"]["url"]
 
-# Kiki's Delivery Service
-# https://api.jikan.moe/v3/anime/512/characters_staff
-
-# Nausicaä of the Valley of the Wind	
-# https://api.jikan.moe/v3/anime/572/characters_staff
-
-# Ponyo
-# https://api.jikan.moe/v3/anime/2890/characters_staff
-
-# Castle in the Sky
-# https://api.jikan.moe/v3/anime/513/characters_staff
-
-# Porco Rosso
-# https://api.jikan.moe/v3/anime/416/characters_staff
+  Selection.create(
+    name: name,
+    description: description,
+    image: image,
+    pool: superhero_pool
+  )
+  num = num + 1
+end
