@@ -23,7 +23,8 @@
     "babel-loader": "^8.0.6",
     "react-router-dom": "5.0.0",
     "redbox-react": "1.6.0",
-    "lodash": "4.17.15"
+    "lodash": "4.17.15",
+    "react-hover": "2.0.0"
   },
   "devDependencies": {
     "webpack-dev-server": "^2.11.1",

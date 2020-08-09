@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { Redirect } from "react-router-dom";
+import ReactHover, { Trigger, Hover } from 'react-hover'
 
 import SelectionTile from '../components/SelectionTile'
 import Teams from '../components/Teams'
+import HoverDescription from '../components/HoverDescription'
 
 const DraftContainer = props => {
   const [game, setGame] = useState({
@@ -85,6 +87,12 @@ const DraftContainer = props => {
     makeSelection(draftPick.id, game.current_player)
   }
 
+  const optionsCursorTrueWithMargin = {
+    followCursor: true,
+    shiftX: 20,
+    shiftY: 0,
+  }
+
   const selectionTiles = game.selections.map((selection) => {
     let chosenTile = false
     if (chosen === selection.id) {
@@ -92,15 +100,29 @@ const DraftContainer = props => {
     }
 
     return(
-      <SelectionTile
-        key={selection.id}
-        id={selection.id}
-        name={selection.name}
-        description={selection.description}
-        image={selection.image}
-        chooseSelection={chooseSelection}
-        chosen={chosenTile}
-      />
+      <div className="cell large-2 small-4">
+        <ReactHover
+          options={optionsCursorTrueWithMargin}>
+          <Trigger type='trigger'>
+            <SelectionTile
+              key={selection.id}
+              id={selection.id}
+              name={selection.name}
+              description={selection.description}
+              image={selection.image}
+              chooseSelection={chooseSelection}
+              chosen={chosenTile}
+            />
+          </Trigger>
+          <Hover type='hover'>
+            <HoverDescription
+              name={selection.name}
+              description={selection.description}
+              image={selection.image}
+            />
+          </Hover>
+        </ReactHover>
+      </div>
     )
   })
 
@@ -151,7 +173,6 @@ const DraftContainer = props => {
           {teamsComponents[0]}
           {teamsComponents[2]}
         </div>
-
         <div className='grid-x cell large-6 draft-board'>
           {selectionTiles}
         </div>

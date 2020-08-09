@@ -1,7 +1,7 @@
 import React from 'react'
 
 const SelectionTile = props => {
-  let classes = "cell card large-2 small-4 text-center"
+  let classes = "card text-center"
   let cardDividerClasses = "card-divider selection-text-box"
 
   if (props.chosen) {
