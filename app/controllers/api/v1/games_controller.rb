@@ -1,18 +1,6 @@
 class Api::V1::GamesController < ApplicationController
   protect_from_forgery unless: -> { request.format.json? }
 
-  def index
-    last_game = Game.find(params["gameId"])
-    completed_games = Game.where({round: 'complete'})
-    random_game = completed_games.sample
-
-    while random_game == last_game do
-      random_game = completed_games.sample
-    end
-
-    render json: random_game
-  end
-
   def create
     last_game = Game.find(params["gameId"])
     completed_games = Game.where({round: 'complete'})
