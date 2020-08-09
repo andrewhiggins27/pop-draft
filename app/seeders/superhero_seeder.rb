@@ -21,8 +21,9 @@ class SuperheroSeeder
     
       image_404_check = Faraday.get("#{image}")
       image_status = image_404_check.status
+      star_trek_descript = "First Appearance:\n-\n\nPublisher:\nStar Trek"
 
-      if image_status == 200 && publisher != "George Lucas"
+      if image_status == 200 && publisher != "George Lucas" && description != star_trek_descript
         Selection.create(
           name: name,
           description: description,
@@ -35,4 +36,3 @@ class SuperheroSeeder
     end
   end
 end
-
