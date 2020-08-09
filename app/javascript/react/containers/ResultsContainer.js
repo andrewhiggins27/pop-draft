@@ -43,7 +43,15 @@ const ResultsContainer = props => {
   const handleNewResultsClick = event => {
     event.preventDefault()
     fetch(`/api/v1/games`, {
-      credentials: "same-origin"
+      credentials: "same-origin",
+      method: "POST",
+      body: JSON.stringify({
+        gameId: game.id
+      }),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      }
     })
     .then(response => {
       if (response.ok) {

@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :pools, only: [:index, :update]
-      resources :games, only: [:index, :show, :update]
+      resources :games, only: [:show, :update, :create]
       resources :teams, only: [:update]
     end
   end
