@@ -26,13 +26,15 @@ const WaitingRoomContainer = props => {
 
   return (
     <div className="grid-container">
-      <h2>Choose Number of Players:</h2>
-      <NumberOfPlayersRadioButtons
-        chooseNumberPlayers={chooseNumberPlayers}
-        selectedOption={numOfPlayers}
-      />
-      <div className="button large cell text-center start-game" onClick={handleStartGameClick}>
-        Start Local Draft
+      <div className="callout cell small-6 number-of-players">
+        <h5>Choose Number of Players:</h5>  
+        <NumberOfPlayersRadioButtons
+          chooseNumberPlayers={chooseNumberPlayers}
+          selectedOption={numOfPlayers}
+        />
+        <div className="button large cell text-center start-game" onClick={handleStartGameClick}>
+          Start Local Draft
+        </div>
       </div>
     </div>
   )

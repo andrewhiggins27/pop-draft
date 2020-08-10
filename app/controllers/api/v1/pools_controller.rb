@@ -9,7 +9,7 @@ class Api::V1::PoolsController < ApplicationController
     number_of_players = params["numberOfPlayers"].to_i
     pool = Pool.find(params["id"])
     game = Game.create
-    selections = pool.selections.sample(10 * number_of_players)
+    selections = pool.selections.sample(9 * number_of_players)
     game.selections = selections
     number_of_players.times do
       Team.create(game: game)

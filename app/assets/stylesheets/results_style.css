@@ -38,8 +38,8 @@ h4 {
   background-repeat: no-repeat;
   background-size: cover;  
   background-position: center center;
-  padding: 1rem;
-  padding-bottom: 4rem;
+  padding: .5rem;
+  padding-bottom: 5rem;
 }
 
 .results-teams-text{
