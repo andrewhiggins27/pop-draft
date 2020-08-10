@@ -12,10 +12,13 @@ const PoolTile = props => {
         </div>
       </Link>
       <div className="card-section" style={{
+        backgroundColor: "#DCD1B4",
         backgroundImage: `url(${props.image})`,
-        backgroundSize: 'cover',
-        padding: '7rem',
-        paddingBottom: '10rem'
+        backgroundSize: 'contain',
+        padding: '6rem',
+        paddingBottom: '10rem',
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center"
       }}>
       </div>
     </div>
