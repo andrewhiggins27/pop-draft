@@ -37,9 +37,11 @@ const HomeContainer = props => {
   })
 
   return (
-    <div className="grid-container">
-      <h2>Select A Draft</h2>
-      {poolTiles}
+    <div className="grid-container select-draft-pool">
+      <h3>Select A Draft Pool</h3>
+      <div className='grid-x grid-margin-x'>
+        {poolTiles}
+      </div>
     </div>
   )
 }

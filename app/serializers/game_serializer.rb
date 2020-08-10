@@ -1,5 +1,5 @@
 class GameSerializer < ActiveModel::Serializer
-  attributes :id, :round
+  attributes :id, :round, :current_player
 
   has_many :teams
   has_many :selections

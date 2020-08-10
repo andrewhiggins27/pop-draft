@@ -1,27 +1,36 @@
-@font-face {
-  font-family: 'Chivo';
-  src: url('/assets/Chivo-Regular.ttf') format('truetype');
-  src: url('/assets/Chivo-Bold.ttf') format('truetype');
-  src: url('/assets/Chivo-Italic.ttf') format('truetype');
-  }
-
 :root {
-  --color-1: #9face6;
-  --color-2: #BFD8AD;
-  --color-3: #DDD9AB;
-  --color-4: #F7AF63;
-  --color-5: #633D2E;
+  --color-1: #5E9FA3;
+  --color-2: #F87E7B;
+  --color-3: #DCD1B4;
+  --color-4: #FAB87F;
+  --color-5: #B05574;
 }
 
 body {
-  background-image: linear-gradient(to right, #74ebd5 0%, #9face6 100%);
+  background-image: linear-gradient(to right, #DCD1B4 0%, #FAB87F 100%);
+}
+
+h2 {
+  font-family: 'Londrina Shadow', cursive;
 }
 
 .nav-bar {
   background-color: var(--color-1);
-  font-family: 'Chivo';
 }
 
 .site-title {
-  color: var(--color-5);
+  font-family: 'Londrina Shadow', cursive;
+  color: black;
+  padding-left: 1rem;
+}
+
+.button {
+  border-radius: 2rem;
+}
+
+.sign-out {
+  background-color: var(--color-1);
+  color: var(--color-3);
+  font-size: 1.5rem;
+  padding-right: .5rem;
 }

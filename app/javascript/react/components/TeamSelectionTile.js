@@ -1,20 +1,33 @@
 import React from 'react'
 
 const TeamSelectionTiles = props => {
-  let classes = "cell small-2 large-1 team-tile callout"
+  let classes = "cell small-4 card team-selection-tile"
+  let imageClasses = "card-section draft-team-images"
+  let h4Classes = "draft-team-text"
 
   if (props.resultsTeam) {
-    classes = "cell small-6 large-4 team-tile callout"
+    classes = "small-4 card team-selection-tile"
+    imageClasses = "card-section results-team-images"
+    h4Classes = "results-teams-text"
   }
+
+  if (props.resultsDraftPool) {
+    classes = ""
+    imageClasses = "card-section results-draft-pool-images"
+    h4Classes = "results-draft-pool-text"
+  }
+
   return(
-    <div className={classes}>
-      {props.name}
-      <br></br>
-      <img
-        src={props.image}
-        alt={`image of ${props.name}`}
-      />
-    </div>
+      <div className={classes}>
+        <div className="card-divider">
+          <h4 className={h4Classes}>{props.name}</h4>
+        </div>
+        <div 
+          className={imageClasses} 
+          style={{backgroundImage: `url(${props.image})`}}
+        >
+        </div>
+      </div>
   )
 }
 

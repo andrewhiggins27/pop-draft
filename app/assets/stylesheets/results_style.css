@@ -1,5 +1,11 @@
+.results-page{
+  margin-right: 4rem;
+  margin-left: 4rem;
+  margin-bottom: 300px
+}
+
 .team-tile {
-  max-width: 6rem;
+  max-width: 8rem;
   border-style: solid;
   border-radius: 10%;
   margin-left: 1rem;
@@ -7,5 +13,48 @@
 }
 
 .results-team {
-  margin: 2rem;
+  text-align: left;
+  padding-left: .2rem;
+  padding-right: .2rem;
+}
+
+h4 {
+  font-size: .8rem;
+}
+
+.results-draft-pool-text {
+  font-size: 1rem;
+}
+
+.results-draft-pool-images {
+  background-repeat: no-repeat;
+  background-size: cover;  
+  background-position: center center;
+  padding: 5rem;
+  padding-bottom: 10rem;
+}
+
+.results-team-images{
+  background-repeat: no-repeat;
+  background-size: cover;  
+  background-position: center center;
+  padding: .5rem;
+  padding-bottom: 5rem;
+}
+
+.results-teams-text{
+  font-size: .8rem;
+}
+
+.pool-name {
+  font-family: 'Londrina Shadow', cursive;
+}
+
+.final-teams{
+  margin-left: 5rem;
+  margin-right: 5rem;
+}
+
+.opacity-tile {
+  opacity: .3;
 }
