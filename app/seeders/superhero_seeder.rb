@@ -23,7 +23,7 @@ class SuperheroSeeder
       image_status = image_404_check.status
       star_trek_descript = "First Appearance:\n-\n\nPublisher:\nStar Trek"
 
-      if image_status == 200 && publisher != "George Lucas" && description != star_trek_descript
+      if image_status == 200 && publisher != "George Lucas" && description != star_trek_descript && name != "Jean-Luc Picard"
         Selection.create(
           name: name,
           description: description,
