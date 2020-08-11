@@ -30,11 +30,11 @@ const Teams = props => {
   if (!props.user) {
     teamName = `Team ${props.index + 1}`
   } else {
-    teamName = props.user.username
+    teamName = `${props.user.username}'s Team`
   }
 
-  let classes = "cell large-6 callout grid-x"
-  let voteTotal = <h2 className="cell">Votes: {props.votes}</h2>
+  let classes = "cell large-6 callout grid-x all-teams"
+  let voteTotal = <h2 className="cell votes">Votes: {props.votes}</h2>
   
   if (props.chosenTeam) {
     classes += " chosen-tile"
@@ -48,7 +48,7 @@ const Teams = props => {
 
   return (
     <div className={classes} onClick={clickHandler}>
-      <h5 className="cell">{teamName}</h5>
+      <h5 className="cell team-name">{teamName}</h5>
       {selectionTiles}
       {voteTotal}
       <br className="cell"></br>

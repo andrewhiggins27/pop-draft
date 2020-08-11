@@ -27,28 +27,28 @@ RSpec.describe Api::V1::PoolsController, type: :controller do
     end
   end
 
-  describe "GET#Update" do
+  describe "POST#start_game" do
     it "return a status of 200" do
-      patch :update, params: {id: pool1.id, numberOfPlayers: "2"}
+      post :start_game, params: {id: pool1.id, numberOfPlayers: "2"}
       
       expect(response.status).to eq 200
       expect(response.content_type).to eq "application/json"
     end
 
     it "initializes a new game" do
-      patch :update, params: {id: pool1.id, numberOfPlayers: "2"}
+      post :start_game, params: {id: pool1.id, numberOfPlayers: "2"}
 
       expect(Game.all.count).to eq(1)
     end
 
     it "creates teams associated with the newly created game" do
-      patch :update, params: {id: pool1.id, numberOfPlayers: "2"}
+      post :start_game, params: {id: pool1.id, numberOfPlayers: "2"}
 
       expect(Game.last.teams.count).to eq(2)
     end
 
     it "returns a game object" do
-      patch :update, params: {id: pool1.id, numberOfPlayers: "2"}
+      post :start_game, params: {id: pool1.id, numberOfPlayers: "2"}
 
       returned_json = JSON.parse(response.body)
 

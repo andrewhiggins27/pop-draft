@@ -8,13 +8,15 @@ const NewGameContainer = props => {
   const [game, setGame] = useState({})
   const [waitingGames, setWaitingGames] = useState([])
   const [numOfPlayers, setNumOfPlayers] = useState("2")
+  const [onlineNumOfPlayers, setOnlineNumOfPlayers] = useState("2")
   const [redirect, setRedirect] = useState(false)
   const [online, setOnline] = useState(false)
+  const [errorMsg, setErrorMsg] = useState(null)
 
-  const createNewGame = (payload) =>{
-    fetch(`/api/v1/pools/${props.match.params.id}`, {
+  const createNewGame = (payload, endpoint) =>{
+    fetch(endpoint, {
       credentials: "same-origin",
-      method: "PATCH",
+      method: "POST",
       body: JSON.stringify(payload),
       headers: {
         Accept: "application/json",
@@ -32,8 +34,13 @@ const NewGameContainer = props => {
       })
       .then(response => response.json())
       .then(body => {
-        setGame(body.game)
-        setRedirect(true)
+        if (body.error) {
+          setErrorMsg(body.error)
+          setOnline(false)
+        } else {
+          setGame(body.game)
+          setRedirect(true)
+        }
       })
       .catch(error => console.error(`Error in fetch: ${error.message}`))
   }
@@ -42,19 +49,23 @@ const NewGameContainer = props => {
     setNumOfPlayers(number)
   }
 
+  const chooseOnlineNumberPlayers = (number) => {
+    setOnlineNumOfPlayers(number)
+  }
+
   const handleStartGameClick = event => {
     createNewGame({
       numberOfPlayers: numOfPlayers,
       online: false
-    })
+    }, `/api/v1/pools/${props.match.params.id}/start/local`)
   }
 
   const handleStartOnlineGameClick = event => {
     setOnline(true)
     createNewGame({
-      numberOfPlayers: "2",
+      numberOfPlayers: onlineNumOfPlayers,
       online: true
-    })
+    }, `/api/v1/pools/${props.match.params.id}/start/online`)
   }
 
   const handleJoinOnlineDraftClick = event => {
@@ -72,7 +83,11 @@ const NewGameContainer = props => {
       })
       .then(response => response.json())
       .then(body => {
-        setWaitingGames(body.games)
+        if (body.error) {
+          setErrorMsg(body.error)
+        } else {
+          setWaitingGames(body.games)
+        }
       })
       .catch(error => console.error(`Error in fetch: ${error.message}`))
   }
@@ -97,6 +112,13 @@ const NewGameContainer = props => {
       </div>
   }
 
+  let errorMessage
+  if (errorMsg) {
+    errorMessage = <h3>{errorMsg}</h3>
+  } else {
+    errorMessage = <></>
+  }
+
   if (redirect) {
     if (online) {
       return <Redirect to={`/games/${game.id}/online`}/>
@@ -107,6 +129,7 @@ const NewGameContainer = props => {
 
   return (
     <div className="grid-container">
+        {errorMessage}
       <div className="grid-x grid-margin-x">
         <div className="callout cell small-6 number-of-players">
           <h5>Local Draft (no sign-in needed)</h5>  
@@ -120,7 +143,11 @@ const NewGameContainer = props => {
           </div>
         </div>
         <div className="callout cell small-6 number-of-players">
-          <h5>Online Draft:</h5>  
+          <h5>Online Draft:</h5> 
+          <NumberOfPlayersRadioButtons
+            chooseNumberPlayers={chooseOnlineNumberPlayers}
+            selectedOption={onlineNumOfPlayers}
+          /> 
           <div className="button large cell text-center start-game" onClick={handleStartOnlineGameClick}>
             Create Online Draft
           </div>

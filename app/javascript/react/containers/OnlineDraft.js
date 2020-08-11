@@ -11,9 +11,10 @@ const OnlineDraft = props => {
     selections: [],
     teams: []
   })
-  const [user, setUser] = useState()
+  const [user, setUser] = useState(null)
   const [chosen, setChosen] = useState(null)
   const [notEnoughPlayers, setNotEnoughPlayers] = useState(false)
+  const [notYourTurn, setNotYourTurn] = useState(false)
 
   useEffect(() => {
     fetch(`/api/v1/games/${props.gameId}`, {
@@ -59,10 +60,10 @@ const OnlineDraft = props => {
         connected: () => console.log("GameChannel connected"),
         disconnected: () => console.log("GameChannel disconnected"),
         received: data => {
-          console.log(data)
           if (data.not_enough_players) {
             setNotEnoughPlayers(true)
           } else {
+            setNotYourTurn(false)
             handleGameReceipt(data)
           }
         }
@@ -87,13 +88,22 @@ const OnlineDraft = props => {
     App.gameChannel.send(payload)
     setChosen(null)
   }
+  
+  const isUsersTurn = () =>{
+    let currentTeam = game.teams[game.current_player]
+    return currentTeam.user.id === user.user_id
+  }
 
   const draftClick = event => {
     event.preventDefault()
-    let draftPick = game.selections.find(selection => selection.id === chosen)
-    makeSelection(draftPick.id, game.current_player)
+    if (isUsersTurn()) {
+      let draftPick = game.selections.find(selection => selection.id === chosen)
+      makeSelection(draftPick.id, game.current_player)
+    } else {
+      setNotYourTurn(true)
+    }
   }
-
+  
   const optionsCursorTrueWithMargin = {
     followCursor: true,
     shiftX: 20,
@@ -165,6 +175,13 @@ const OnlineDraft = props => {
     }
   }
 
+  let notYourTurnMsg
+  if (notYourTurn) {
+    notYourTurnMsg = <h3>Not your turn!</h3>
+  } else {
+    notYourTurnMsg = <></>
+  }
+
   const startGameClick = event => {
     setNotEnoughPlayers(false)
     let payload = {gameId: game.id, start: true}
@@ -176,10 +193,17 @@ const OnlineDraft = props => {
     if (notEnoughPlayers) {
       notEnoughPlayerError = <h5 className="error-msg">Not Enough Players!</h5>
     }
+
+    let startGameButton
+    if (user) {
+      startGameButton = <div className="button large cell alert" onClick={startGameClick}>Start Draft</div>
+    } else {
+      startGameButton = <></>
+    }
     return(
       <div className="callout">
         <h5>Waiting for other players to join...</h5>
-        <div className="button large cell alert" onClick={startGameClick}>Start Draft</div>
+        {startGameButton}
         {notEnoughPlayerError}
       </div>
     )
@@ -192,6 +216,7 @@ const OnlineDraft = props => {
           {currentRound}
         </div>
         {playerTurn}
+        {notYourTurnMsg}
       </div>
         {chosen && <div className="button large cell alert" onClick={draftClick}>Draft!</div>}
       <div className='grid-x grid-margin-x'>

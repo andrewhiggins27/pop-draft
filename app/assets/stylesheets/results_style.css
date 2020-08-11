@@ -51,11 +51,10 @@ h4 {
   font-family: 'Londrina Shadow', cursive;
 }
 
-.final-teams{
-  margin-left: 5rem;
-  margin-right: 5rem;
-}
-
 .opacity-tile {
   opacity: .3;
+}
+
+.votes {
+  font-family: 'Josefin Sans';
 }

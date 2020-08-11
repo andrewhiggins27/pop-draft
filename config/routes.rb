@@ -18,6 +18,8 @@ Rails.application.routes.draw do
       resources :teams, only: [:update]
       get "users/current" => "users#current_user"
       get "pools/:id/games" => "pools#waiting_games"
+      post "pools/:id/start/local" => "pools#start_game"
+      post "pools/:id/start/online" => "pools#start_online_game"
     end
   end
 end

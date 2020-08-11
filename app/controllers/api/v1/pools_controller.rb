@@ -5,20 +5,29 @@ class Api::V1::PoolsController < ApplicationController
     render json: Pool.all
   end
 
-  def update
-    if params["online"]
-      game = Game.online_start(params["id"], params["numberOfPlayers"], current_user)
+  def waiting_games
+    if current_user
+      pool = Pool.find(params["id"])
+      waiting_games = pool.games.where({status: "waiting"}).limit(20).order("created_at DESC")
+
+      render json: waiting_games
     else
-      game = Game.start(params["id"], params["numberOfPlayers"])
+      render json: { error: "You must be signed in to play online" }
     end
+  end
+
+  def start_game
+    game = Game.start(params["id"], params["numberOfPlayers"])
 
     render json: game
   end
 
-  def waiting_games
-    pool = Pool.find(params["id"])
-    waiting_games = pool.games.where({status: "waiting"}).limit(20).order("created_at DESC")
-
-    render json: waiting_games
+  def start_online_game
+    if current_user 
+      game = Game.online_start(params["id"], params["numberOfPlayers"], current_user)
+      render json: game
+    else
+      render json: { error: "You must be signed in to play online" }
+    end
   end
 end
