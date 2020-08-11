@@ -33,7 +33,7 @@ const Teams = props => {
     teamName = props.user.username
   }
 
-  let classes = "cell large-6 medium-12 callout grid-x"
+  let classes = "cell large-6 callout grid-x"
   let voteTotal = <h2 className="cell">Votes: {props.votes}</h2>
   
   if (props.chosenTeam) {

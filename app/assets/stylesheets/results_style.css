@@ -4,6 +4,19 @@
   margin-bottom: 300px
 }
 
+.results-team-images{
+  background-color: var(--color-3);
+  background-repeat: no-repeat;
+  background-size: contain;  
+  background-position: center center;
+  padding: .5rem;
+  padding-bottom: 5rem;
+}
+
+.results-teams-text{
+  font-size: .8rem;
+}
+
 .team-tile {
   max-width: 8rem;
   border-style: solid;
@@ -32,18 +45,6 @@ h4 {
   background-position: center center;
   padding: 5rem;
   padding-bottom: 10rem;
-}
-
-.results-team-images{
-  background-repeat: no-repeat;
-  background-size: cover;  
-  background-position: center center;
-  padding: .5rem;
-  padding-bottom: 5rem;
-}
-
-.results-teams-text{
-  font-size: .8rem;
 }
 
 .pool-name {

@@ -45,7 +45,6 @@ const ChatContainer = (props) => {
     );
   }, [])
 
-
   const handleMessageReceipt = (messages) => {
     setMessages(messages)
   }

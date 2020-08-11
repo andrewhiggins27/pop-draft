@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom'
 const PoolTile = props => {
 
   return (
-    <div className="card cell small-4">
-      <Link to={`/pools/${props.id}`}>
+    <div className="card cell small-4 pool-tile">
+      <Link to={`/pools/${props.id}/games/new`}>
         <div className="card-divider">
           <h3>{props.name}</h3>
         </div>

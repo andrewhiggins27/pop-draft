@@ -6,24 +6,18 @@ import SelectionTile from '../components/SelectionTile'
 import Teams from '../components/Teams'
 import HoverDescription from '../components/HoverDescription'
 
-const DraftContainer = props => {
+const OnlineDraft = props => {
   const [game, setGame] = useState({
     selections: [],
     teams: []
   })
+  const [user, setUser] = useState()
   const [chosen, setChosen] = useState(null)
+  const [notEnoughPlayers, setNotEnoughPlayers] = useState(false)
 
   useEffect(() => {
-    fetch(`/api/v1/pools/${props.poolId}`,{
-      credentials: "same-origin",
-      method: "PATCH",
-      body: JSON.stringify({
-        numberOfPlayers: props.numberOfPlayers
-      }),
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      }
+    fetch(`/api/v1/games/${props.gameId}`, {
+      credentials: 'same-origin'
     })
       .then(response => {
         if (response.ok) {
@@ -39,32 +33,45 @@ const DraftContainer = props => {
         setGame(body.game)
       })
       .catch(error => console.error(`Error in fetch: ${error.message}`))
+
+      fetch("/api/v1/users/current", {
+        credentials: 'same-origin',
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+      })
+      .then((response) => {
+        let { ok } = response;
+        if (ok) {
+          return response.json();
+        }
+      })
+      .then((data) => {
+        setUser(data)
+      })
+
+    App.gameChannel = App.cable.subscriptions.create(
+      // Info that is sent to the subscribed method
+      {
+        channel: "GameChannel",
+        game_id: props.gameId
+      },
+      {
+        connected: () => console.log("GameChannel connected"),
+        disconnected: () => console.log("GameChannel disconnected"),
+        received: data => {
+          console.log(data)
+          if (data.not_enough_players) {
+            setNotEnoughPlayers(true)
+          } else {
+            handleGameReceipt(data)
+          }
+        }
+      }
+    );
   }, [])
 
-  const fetchPatch = (payload, endpoint) => {
-    fetch(endpoint, {
-      credentials: "same-origin",
-      method: "PATCH",
-      body: JSON.stringify(payload),
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      }
-    })
-    .then(response => {
-      if (response.ok) {
-        return response
-      } else {
-        let errorMessage = `${response.status} (${response.statusText})`
-        let error = new Error(errorMessage)
-        throw error
-      }
-    })
-    .then(response => response.json())
-    .then(body => {
-      setGame(body.game)
-    })
-    .catch((error) => console.error(`Error in fetch: ${error.message}`))
+  const handleGameReceipt = (game) => {
+    setGame(game)
   }
 
   const chooseSelection = (selectionID) => {
@@ -76,8 +83,8 @@ const DraftContainer = props => {
   }
 
   const makeSelection = (selection, player) => { 
-    let payload = {selection: selection, player: player, round: game.round}
-    fetchPatch(payload, `/api/v1/games/${game.id}`)
+    let payload = {selection: selection, player: player, gameId: game.id, makeSelection: true}
+    App.gameChannel.send(payload)
     setChosen(null)
   }
 
@@ -100,7 +107,7 @@ const DraftContainer = props => {
     }
 
     return(
-      <div className="cell large-2 medium-2 small-4" key={selection.id}>
+      <div className="cell large-3 medium-3 small-4" key={selection.id}>
         <ReactHover
           options={optionsCursorTrueWithMargin}>
           <Trigger type='trigger'>
@@ -140,7 +147,7 @@ const DraftContainer = props => {
 
   if (game.round === "complete") {
     return (
-      <Redirect to={`/games/${game.id}`} />
+      <Redirect to={`/games/${game.id}/results`} />
     )
   }
 
@@ -152,10 +159,30 @@ const DraftContainer = props => {
   let playerTurn
   if (game.teams[game.current_player]) {
     if (game.teams[game.current_player].user) {
-      playerTurn = <h2 className="text-center player-turn">{game.teams[game.current_player].user.email}'s Turn</h2>
+      playerTurn = <h2 className="text-center player-turn">{game.teams[game.current_player].user.username}'s Turn</h2>
     } else {
     playerTurn = <h2 className="text-center player-turn">{`Team ${game.current_player + 1}'s Turn to Draft!`}</h2>
     }
+  }
+
+  const startGameClick = event => {
+    setNotEnoughPlayers(false)
+    let payload = {gameId: game.id, start: true}
+    App.gameChannel.send(payload)
+  }
+
+  if (game.number_of_players !== game.teams.length) {
+    let notEnoughPlayerError
+    if (notEnoughPlayers) {
+      notEnoughPlayerError = <h5 className="error-msg">Not Enough Players!</h5>
+    }
+    return(
+      <div className="callout">
+        <h5>Waiting for other players to join...</h5>
+        <div className="button large cell alert" onClick={startGameClick}>Start Draft</div>
+        {notEnoughPlayerError}
+      </div>
+    )
   }
 
   return(
@@ -167,12 +194,12 @@ const DraftContainer = props => {
         {playerTurn}
       </div>
         {chosen && <div className="button large cell alert" onClick={draftClick}>Draft!</div>}
-      <div className='grid-x'>
+      <div className='grid-x grid-margin-x'>
         <div className="cell large-3">
           {teamsComponents[0]}
           {teamsComponents[2]}
         </div>
-        <div className='grid-x cell large-6 draft-board'>
+        <div className='grid-x grid-padding-x cell large-6 draft-board'>
           {selectionTiles}
         </div>
         <div className="cell large-3">
@@ -185,4 +212,4 @@ const DraftContainer = props => {
   )
 }
 
-export default DraftContainer
+export default OnlineDraft

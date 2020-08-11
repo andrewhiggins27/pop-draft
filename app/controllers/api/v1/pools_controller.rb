@@ -6,21 +6,19 @@ class Api::V1::PoolsController < ApplicationController
   end
 
   def update
-    number_of_players = params["numberOfPlayers"].to_i
-    pool = Pool.find(params["id"])
-    game = Game.create
-    selections = pool.selections.sample(9 * number_of_players)
-    game.selections = selections
-    number_of_players.times do
-      Team.create(game: game)
+    if params["online"]
+      game = Game.online_start(params["id"], params["numberOfPlayers"], current_user)
+    else
+      game = Game.start(params["id"], params["numberOfPlayers"])
     end
 
-    draft_class = DraftClass.create(
-      pool: pool, 
-      game: game, 
-      selections: selections
-    )
-
     render json: game
+  end
+
+  def waiting_games
+    pool = Pool.find(params["id"])
+    waiting_games = pool.games.where({status: "waiting"}).limit(20).order("created_at DESC")
+
+    render json: waiting_games
   end
 end

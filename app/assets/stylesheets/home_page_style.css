@@ -1,3 +1,9 @@
 .select-draft-pool {
   margin-top: 2rem;
 }
+
+.pool-tile{ 
+  border-style: solid;
+  border-width: 2px;
+  border-color: black;
+}
