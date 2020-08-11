@@ -2,8 +2,6 @@ Rails.application.routes.draw do
   root 'homes#index'
   get '/pools/:id/games/new', to: 'homes#index'
   get '/games/:id', to: 'homes#index'
-  get '/chats', to: 'homes#index'
-  get '/chats/:id', to: 'homes#index'
   get '/games/:id/results', to: "homes#index"
   get '/games/:id/:status', to: "homes#index"
 

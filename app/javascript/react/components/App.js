@@ -17,8 +17,6 @@ export const App = (props) => {
           <Route exact path="/pools/:id/games/new" component={NewGameContainer} />
           <Route exact path="/games/:id/results" component={ResultsContainer} />
           <Route exact path="/games/:id/:status" component={DraftShowContainer} />
-          <Route exact path="/chats" component={ChatContainer}/>
-          <Route exact path="/chats/:id" component={ChatContainer}/>
         </Switch>
       </BrowserRouter>
     </div>
