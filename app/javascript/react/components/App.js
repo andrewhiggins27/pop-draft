@@ -5,7 +5,6 @@ import ResultsContainer from '../containers/ResultsContainer';
 import HomeContainer from '../containers/HomeContainer'
 import NewGameContainer from '../containers/NewGameContainer'
 import DraftShowContainer from '../containers/DraftShowContainer'
-import ChatContainer from '../containers/ChatContainer'
 
 export const App = (props) => {
 

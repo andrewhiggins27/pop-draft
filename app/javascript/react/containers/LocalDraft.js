@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Redirect } from "react-router-dom";
 import ReactHover, { Trigger, Hover } from 'react-hover'
+import { useAlert } from 'react-alert'
 
 import SelectionTile from '../components/SelectionTile'
 import Teams from '../components/Teams'
@@ -12,6 +13,8 @@ const LocalDraft = props => {
     teams: []
   })
   const [chosen, setChosen] = useState(null)
+
+  const alert = useAlert()
 
   useEffect(() => {
     fetch(`/api/v1/games/${props.gameId}`, {
@@ -77,6 +80,7 @@ const LocalDraft = props => {
   const draftClick = event => {
     event.preventDefault()
     let draftPick = game.selections.find(selection => selection.id === chosen)
+    alert.success(`Player ${game.current_player + 1} selects... ${draftPick.name}`)
     makeSelection(draftPick.id, game.current_player)
   }
 

@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import NumberOfPlayersRadioButtons from '../components/NumberOfPlayersRadioButtons'
 import WaitingGame from '../components/WaitingGame'
 import { Redirect } from "react-router-dom";
+import { useAlert } from 'react-alert'
 
 const NewGameContainer = props => {
   const [game, setGame] = useState({})
@@ -11,7 +12,8 @@ const NewGameContainer = props => {
   const [onlineNumOfPlayers, setOnlineNumOfPlayers] = useState("2")
   const [redirect, setRedirect] = useState(false)
   const [online, setOnline] = useState(false)
-  const [errorMsg, setErrorMsg] = useState(null)
+
+  const alert = useAlert()
 
   const createNewGame = (payload, endpoint) =>{
     fetch(endpoint, {
@@ -35,7 +37,7 @@ const NewGameContainer = props => {
       .then(response => response.json())
       .then(body => {
         if (body.error) {
-          setErrorMsg(body.error)
+          alert.error(body.error)
           setOnline(false)
         } else {
           setGame(body.game)
@@ -84,7 +86,7 @@ const NewGameContainer = props => {
       .then(response => response.json())
       .then(body => {
         if (body.error) {
-          setErrorMsg(body.error)
+          alert.error(body.error)
         } else {
           setWaitingGames(body.games)
         }
@@ -112,13 +114,6 @@ const NewGameContainer = props => {
       </div>
   }
 
-  let errorMessage
-  if (errorMsg) {
-    errorMessage = <h3>{errorMsg}</h3>
-  } else {
-    errorMessage = <></>
-  }
-
   if (redirect) {
     if (online) {
       return <Redirect to={`/games/${game.id}/online`}/>
@@ -129,7 +124,6 @@ const NewGameContainer = props => {
 
   return (
     <div className="grid-container">
-        {errorMessage}
       <div className="grid-x grid-margin-x">
         <div className="callout cell small-6 number-of-players">
           <h5>Local Draft (no sign-in needed)</h5>  

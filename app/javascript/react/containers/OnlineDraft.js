@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Redirect } from "react-router-dom";
 import ReactHover, { Trigger, Hover } from 'react-hover'
+import { useAlert } from 'react-alert'
 
 import SelectionTile from '../components/SelectionTile'
 import Teams from '../components/Teams'
@@ -13,8 +14,8 @@ const OnlineDraft = props => {
   })
   const [user, setUser] = useState(null)
   const [chosen, setChosen] = useState(null)
-  const [notEnoughPlayers, setNotEnoughPlayers] = useState(false)
-  const [notYourTurn, setNotYourTurn] = useState(false)
+
+  const alert = useAlert()
 
   useEffect(() => {
     fetch(`/api/v1/games/${props.gameId}`, {
@@ -61,10 +62,10 @@ const OnlineDraft = props => {
         disconnected: () => console.log("GameChannel disconnected"),
         received: data => {
           if (data.not_enough_players) {
-            setNotEnoughPlayers(true)
+            alert.error("Not Enough Players")
           } else {
-            setNotYourTurn(false)
-            handleGameReceipt(data)
+            handleGameReceipt(data.game)
+            alert.success(data.alert)
           }
         }
       }
@@ -100,7 +101,7 @@ const OnlineDraft = props => {
       let draftPick = game.selections.find(selection => selection.id === chosen)
       makeSelection(draftPick.id, game.current_player)
     } else {
-      setNotYourTurn(true)
+      alert.error("It's Not Your Turn to draft!")
     }
   }
   
@@ -175,25 +176,12 @@ const OnlineDraft = props => {
     }
   }
 
-  let notYourTurnMsg
-  if (notYourTurn) {
-    notYourTurnMsg = <h3>Not your turn!</h3>
-  } else {
-    notYourTurnMsg = <></>
-  }
-
   const startGameClick = event => {
-    setNotEnoughPlayers(false)
     let payload = {gameId: game.id, start: true}
     App.gameChannel.send(payload)
   }
 
   if (game.number_of_players !== game.teams.length) {
-    let notEnoughPlayerError
-    if (notEnoughPlayers) {
-      notEnoughPlayerError = <h5 className="error-msg">Not Enough Players!</h5>
-    }
-
     let startGameButton
     if (user) {
       startGameButton = <div className="button large cell alert" onClick={startGameClick}>Start Draft</div>
@@ -204,7 +192,6 @@ const OnlineDraft = props => {
       <div className="callout">
         <h5>Waiting for other players to join...</h5>
         {startGameButton}
-        {notEnoughPlayerError}
       </div>
     )
   }
@@ -216,7 +203,6 @@ const OnlineDraft = props => {
           {currentRound}
         </div>
         {playerTurn}
-        {notYourTurnMsg}
       </div>
         {chosen && <div className="button large cell alert" onClick={draftClick}>Draft!</div>}
       <div className='grid-x grid-margin-x'>
