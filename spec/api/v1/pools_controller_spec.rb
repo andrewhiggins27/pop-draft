@@ -27,6 +27,21 @@ RSpec.describe Api::V1::PoolsController, type: :controller do
     end
   end
 
+  describe "GET#Show" do
+    it "returns a status of 200" do
+      get :show, params: {id: pool1.id}
+
+      expect(response.status).to eq 200
+      expect(response.content_type).to eq "application/json"
+    end
+    it "returns the specific pool based on ID" do
+      get :show, params: {id: pool1.id}
+      returned_json = JSON.parse(response.body)
+
+      expect(returned_json["pool"]["id"]).to eq(pool1.id)
+    end
+  end
+
   describe "POST#start_game" do
     it "return a status of 200" do
       post :start_game, params: {id: pool1.id, numberOfPlayers: "2"}
