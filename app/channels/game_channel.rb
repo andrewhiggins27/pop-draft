@@ -14,13 +14,19 @@ class GameChannel < ApplicationCable::Channel
         game = Game.find(data["gameId"])
         game.status = "in progress"
         game.save
+        alert = "Begin Draft!"
       elsif (data["makeSelection"])
         game = Game.player_makes_selection(data["selection"], data["gameId"], data["player"])
+        username = game.teams[data["player"]].user.username
+        selection = Selection.find(data["selection"]).name
+
+        alert = "#{username} selects... #{selection}"
       end
-  
       game_serialized = GameSerializer.new(game).as_json
+
+      broadcast = {game: game_serialized, alert: alert}
       
-      ActionCable.server.broadcast("game_#{data["gameId"]}", game_serialized)
+      ActionCable.server.broadcast("game_#{data["gameId"]}", broadcast)
     else
       ActionCable.server.broadcast("game_#{data["gameId"]}", {not_enough_players: true})
     end

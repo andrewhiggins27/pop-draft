@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import ReactHover, { Trigger, Hover } from 'react-hover'
+import { useAlert } from 'react-alert'
 
 import HoverDescription from '../components/HoverDescription'
 import TeamSelectionTile from '../components/TeamSelectionTile'
@@ -8,8 +9,8 @@ import Teams from '../components/Teams'
 const ResultsContainer = props => {
   const [game, setGame] = useState({})
   const [chosen, setChosen] = useState(null)
-  const [successMsg, setSuccessMsg] = useState(null)
-  const [errors, setErrors] = useState("")
+
+  const alert = useAlert()
 
   useEffect(() => {
     let gameId = props.match.params.id
@@ -94,12 +95,12 @@ const ResultsContainer = props => {
     .then(response => response.json())
     .then(body => {
       if (body.error) {
-        setErrors(body.error)
+        alert.error(body.error)
         setChosen(null)
       } else {
         setGame(body.game)
         setChosen(null)
-        setSuccessMsg("Vote Successful")
+        alert.success("Vote Successful")
       }
     })
     .catch((error) => console.error(`Error in fetch: ${error.message}`))
@@ -176,20 +177,6 @@ const ResultsContainer = props => {
     finalTeams = <></>
   }
 
-  let errorMessages
-  if (errors !== "") {
-    errorMessages = <h3>{errors}</h3>
-  } else {
-    errorMessages = <></>
-  }
-
-  let successMessages
-  if (successMsg) {
-    successMessages = <h3>{successMsg}</h3>
-  } else {
-    successMessages = <></>
-  }
-
   let  poolName
   if (game.draft_class) {
     poolName = <h1 className="pool-name">{game.draft_class.pool.name}</h1>
@@ -197,7 +184,6 @@ const ResultsContainer = props => {
 
   return(
     <div className='grid-container results-page'>
-      {errorMessages}
       {poolName}
       <div className="grid-x grid-padding-x">
         <h2 className='cell small-6'>Results</h2>
@@ -207,11 +193,9 @@ const ResultsContainer = props => {
       </div>
       <h1 className='cell londrina-solid'>Final Teams: (Vote for the winner!)</h1>
       {chosen && <div className="button large cell alert" onClick={handleVoteClick}>Submit Vote!</div>}
-      {successMessages}
       <div className="grid-x grid-margin-x final-teams">
         {finalTeams}
       </div>
-      {chosen && <div className="button large cell alert" onClick={handleVoteClick}>Submit Vote!</div>}
       <div>
         <h2>Draft Pool:</h2>
         <div className='cell grid-x'>
