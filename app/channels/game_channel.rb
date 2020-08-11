@@ -9,7 +9,7 @@ class GameChannel < ApplicationCable::Channel
 
   def receive(data)
     game = Game.find(data["gameId"])
-    if game.enough_players? 
+    if game.enough_players?
       if (data["start"] && game.enough_players?)
         game = Game.find(data["gameId"])
         game.status = "in progress"

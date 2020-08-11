@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import NumberOfPlayersRadioButtons from '../components/NumberOfPlayersRadioButtons'
 import WaitingGame from '../components/WaitingGame'
@@ -6,6 +6,7 @@ import { Redirect } from "react-router-dom";
 import { useAlert } from 'react-alert'
 
 const NewGameContainer = props => {
+  const [pool, setPool] = useState({name: null})
   const [game, setGame] = useState({})
   const [waitingGames, setWaitingGames] = useState([])
   const [numOfPlayers, setNumOfPlayers] = useState("2")
@@ -14,6 +15,26 @@ const NewGameContainer = props => {
   const [online, setOnline] = useState(false)
 
   const alert = useAlert()
+
+  useEffect(()=>{
+    fetch(`/api/v1/pools/${props.match.params.id}`, {
+      credentials: 'same-origin'
+    })
+      .then(response => {
+        if (response.ok) {
+          return response;
+        } else {
+          let errorMessage = `${response.status} (${response.statusText})`,
+            error = new Error(errorMessage);
+          throw (error);
+        }
+      })
+      .then(response => response.json())
+      .then(body => {
+        setPool(body.pool)
+      })
+      .catch(error => console.error(`Error in fetch: ${error.message}`))
+  },[])
 
   const createNewGame = (payload, endpoint) =>{
     fetch(endpoint, {
@@ -124,8 +145,9 @@ const NewGameContainer = props => {
 
   return (
     <div className="grid-container">
-      <div className="grid-x grid-margin-x">
-        <div className="callout cell small-6 number-of-players">
+      <h1 className="pool-name-text">{pool.name}</h1>
+      <div className="grid-x grid-margin-x new-game-page">
+        <div className="callout cell small-12 large-6 number-of-players">
           <h5>Local Draft (no sign-in needed)</h5>  
           <h5>Choose Number of Players:</h5>  
           <NumberOfPlayersRadioButtons
@@ -136,8 +158,9 @@ const NewGameContainer = props => {
             Start Local Draft
           </div>
         </div>
-        <div className="callout cell small-6 number-of-players">
+        <div className="callout cell small-12 large-6 number-of-players">
           <h5>Online Draft:</h5> 
+          <h5>Choose Number of Players:</h5>  
           <NumberOfPlayersRadioButtons
             chooseNumberPlayers={chooseOnlineNumberPlayers}
             selectedOption={onlineNumOfPlayers}

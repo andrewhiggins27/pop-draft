@@ -5,6 +5,10 @@ class Api::V1::PoolsController < ApplicationController
     render json: Pool.all
   end
 
+  def show
+    render json: Pool.find(params["id"])
+  end
+
   def waiting_games
     if current_user
       pool = Pool.find(params["id"])

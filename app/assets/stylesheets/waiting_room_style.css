@@ -2,7 +2,10 @@
   max-width: 90%;
 }
 
-.number-of-players {
-  max-width: 30%;
+.new-game-page{
   margin-top: 2rem;
+}
+
+.pool-name-text{
+  margin-top: 1rem;
 }
