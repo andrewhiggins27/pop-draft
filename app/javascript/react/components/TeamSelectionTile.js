@@ -6,7 +6,7 @@ const TeamSelectionTiles = props => {
   let h4Classes = "draft-team-text"
 
   if (props.resultsTeam) {
-    classes = "small-4 card team-selection-tile"
+    classes = "small-6 large-4 card team-selection-tile"
     imageClasses = "card-section results-team-images"
     h4Classes = "results-teams-text"
   }

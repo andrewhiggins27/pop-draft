@@ -56,4 +56,5 @@ gem 'webpacker', '~> 3.3'
 gem 'faraday'
 gem "faraday_middleware", '1.0.0'
 gem "active_model_serializers"
+gem 'redis', '~> 4.0'
 gem "acts_as_votable"

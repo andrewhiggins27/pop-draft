@@ -1,10 +1,11 @@
 import React from 'react'
-import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter, Switch, Route} from "react-router-dom";
 
-import DraftContainer from '../containers/DraftContainer'
 import ResultsContainer from '../containers/ResultsContainer';
 import HomeContainer from '../containers/HomeContainer'
-import WaitingRoomContainer from '../containers/WaitingRoomContainer'
+import NewGameContainer from '../containers/NewGameContainer'
+import DraftShowContainer from '../containers/DraftShowContainer'
+import ChatContainer from '../containers/ChatContainer'
 
 export const App = (props) => {
 
@@ -13,8 +14,9 @@ export const App = (props) => {
       <BrowserRouter>
         <Switch>
           <Route exact path="/" component={HomeContainer} />
-          <Route exact path="/pools/:id" component={WaitingRoomContainer} />
-          <Route exact path="/games/:id" component={ResultsContainer} />
+          <Route exact path="/pools/:id/games/new" component={NewGameContainer} />
+          <Route exact path="/games/:id/results" component={ResultsContainer} />
+          <Route exact path="/games/:id/:status" component={DraftShowContainer} />
         </Switch>
       </BrowserRouter>
     </div>

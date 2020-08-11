@@ -10,10 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_09_182952) do
+ActiveRecord::Schema.define(version: 2020_08_10_182448) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "chats", force: :cascade do |t|
+    t.string "title"
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "draft_classes", force: :cascade do |t|
     t.bigint "pool_id"
@@ -29,6 +36,9 @@ ActiveRecord::Schema.define(version: 2020_08_09_182952) do
     t.datetime "updated_at", null: false
     t.string "round", default: "1"
     t.integer "current_player", default: 0
+    t.integer "number_of_players", default: 2
+    t.string "status", default: "in progress"
+    t.string "created_by"
   end
 
   create_table "gameselections", force: :cascade do |t|
@@ -38,6 +48,16 @@ ActiveRecord::Schema.define(version: 2020_08_09_182952) do
     t.datetime "updated_at", null: false
     t.index ["game_id"], name: "index_gameselections_on_game_id"
     t.index ["selection_id"], name: "index_gameselections_on_selection_id"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.string "body", null: false
+    t.bigint "user_id"
+    t.bigint "chat_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chat_id"], name: "index_messages_on_chat_id"
+    t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
   create_table "pools", force: :cascade do |t|

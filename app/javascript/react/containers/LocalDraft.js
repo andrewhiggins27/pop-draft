@@ -6,7 +6,7 @@ import SelectionTile from '../components/SelectionTile'
 import Teams from '../components/Teams'
 import HoverDescription from '../components/HoverDescription'
 
-const DraftContainer = props => {
+const LocalDraft = props => {
   const [game, setGame] = useState({
     selections: [],
     teams: []
@@ -14,16 +14,8 @@ const DraftContainer = props => {
   const [chosen, setChosen] = useState(null)
 
   useEffect(() => {
-    fetch(`/api/v1/pools/${props.poolId}`,{
-      credentials: "same-origin",
-      method: "PATCH",
-      body: JSON.stringify({
-        numberOfPlayers: props.numberOfPlayers
-      }),
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      }
+    fetch(`/api/v1/games/${props.gameId}`, {
+      credentials: 'same-origin'
     })
       .then(response => {
         if (response.ok) {
@@ -40,6 +32,7 @@ const DraftContainer = props => {
       })
       .catch(error => console.error(`Error in fetch: ${error.message}`))
   }, [])
+
 
   const fetchPatch = (payload, endpoint) => {
     fetch(endpoint, {
@@ -100,7 +93,7 @@ const DraftContainer = props => {
     }
 
     return(
-      <div className="cell large-2 medium-2 small-4" key={selection.id}>
+      <div className="cell large-3 medium-3 small-4" key={selection.id}>
         <ReactHover
           options={optionsCursorTrueWithMargin}>
           <Trigger type='trigger'>
@@ -140,7 +133,7 @@ const DraftContainer = props => {
 
   if (game.round === "complete") {
     return (
-      <Redirect to={`/games/${game.id}`} />
+      <Redirect to={`/games/${game.id}/results`} />
     )
   }
 
@@ -154,7 +147,7 @@ const DraftContainer = props => {
     if (game.teams[game.current_player].user) {
       playerTurn = <h2 className="text-center player-turn">{game.teams[game.current_player].user.email}'s Turn</h2>
     } else {
-    playerTurn = <h2 className="text-center player-turn">{`Team ${game.current_player + 1}'s Turn to Draft!`}</h2>
+      playerTurn = <h2 className="text-center player-turn">{`Team ${game.current_player + 1}'s Turn to Draft!`}</h2>
     }
   }
 
@@ -167,12 +160,12 @@ const DraftContainer = props => {
         {playerTurn}
       </div>
         {chosen && <div className="button large cell alert" onClick={draftClick}>Draft!</div>}
-      <div className='grid-x'>
+      <div className='grid-x grid-margin-x'>
         <div className="cell large-3">
           {teamsComponents[0]}
           {teamsComponents[2]}
         </div>
-        <div className='grid-x cell large-6 draft-board'>
+        <div className='grid-x grid-margin-x cell large-6 draft-board'>
           {selectionTiles}
         </div>
         <div className="cell large-3">
@@ -185,4 +178,4 @@ const DraftContainer = props => {
   )
 }
 
-export default DraftContainer
+export default LocalDraft

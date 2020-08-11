@@ -205,7 +205,7 @@ const ResultsContainer = props => {
           View Another Game
         </div>
       </div>
-      <h1 className='cell'>Final Teams: (Vote for the winner!)</h1>
+      <h1 className='cell londrina-solid'>Final Teams: (Vote for the winner!)</h1>
       {chosen && <div className="button large cell alert" onClick={handleVoteClick}>Submit Vote!</div>}
       {successMessages}
       <div className="grid-x grid-margin-x final-teams">
