@@ -110,8 +110,7 @@ const OnlineDraft = props => {
 
     if (isUsersTurn()) {
       confirmAlert({
-        title: 'Draft?',
-        message: `Do you want to draft ${draftPick.name}?`,
+        title: `Draft ${draftPick.name}?`,
         buttons: [
           {
             label: 'Yes',

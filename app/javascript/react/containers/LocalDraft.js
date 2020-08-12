@@ -83,8 +83,7 @@ const LocalDraft = props => {
     let draftPick = game.selections.find(selection => selection.id === selectionId)
 
     confirmAlert({
-      title: 'Draft?',
-      message: `Do you want to draft ${draftPick.name}?`,
+      title: `Draft ${draftPick.name}?`,
       buttons: [
         {
           label: 'Yes',
