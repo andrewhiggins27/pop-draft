@@ -7,7 +7,7 @@ const NumberOfPlayersRadioButtons = props => {
   }
 
   return(
-    <div className="grid-x">
+    <div className="grid-x cell small-12">
       <form>
         <div className="radio cell">
           <label>

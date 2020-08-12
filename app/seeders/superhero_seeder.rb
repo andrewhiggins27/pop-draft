@@ -2,7 +2,7 @@ require 'faraday'
 
 class SuperheroSeeder
   def self.seed!
-    superhero_pool = Pool.create(name: "Superheros")
+    superhero_pool = Pool.create(name: "Superheroes and Supervillians")
 
     num = 1
     while num <= 731 do
