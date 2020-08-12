@@ -6,14 +6,17 @@ class Api::V1::TeamsController < ApplicationController
     team = Team.find(params["id"])
 
     if current_user
-      team.liked_by current_user
-      game.teams.where("id != #{team.id}").each do |team|
-        team.unliked_by current_user
+      if current_user.voted_for? team
+        render json: {error: "You already voted for this team."}
+      else
+        team.liked_by current_user
+        game.teams.where("id != #{team.id}").each do |team|
+          team.unliked_by current_user
+        end
+        render json: game
       end
-      
-      render json: game
     else
-      render json: {error: "You must be signed in to vote"}
+      render json: {error: "You must be signed in to vote."}
     end
   end
 end

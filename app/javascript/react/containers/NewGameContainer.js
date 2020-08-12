@@ -131,7 +131,6 @@ const NewGameContainer = props => {
     onlineDraftsMessage = 
       <div>
         <h3>Click on a Draft to Join</h3>
-        <p>If you are not signed in, you will join as a spectator</p>
       </div>
   }
 

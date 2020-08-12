@@ -10,14 +10,6 @@ class Api::V1::GamesController < ApplicationController
   def show
     game = Game.find(params["id"])
 
-    if game.status == "waiting"
-      if current_user
-        if game.does_not_include_user?(current_user)
-          Team.create(game: game, user: current_user)
-        end
-      end
-    end
-
     render json: game
   end
 

@@ -80,7 +80,7 @@ const LocalDraft = props => {
   const draftClick = event => {
     event.preventDefault()
     let draftPick = game.selections.find(selection => selection.id === chosen)
-    alert.success(`Player ${game.current_player + 1} selects... ${draftPick.name}`)
+    alert.show(`Player ${game.current_player + 1} selects... ${draftPick.name}`)
     makeSelection(draftPick.id, game.current_player)
   }
 
