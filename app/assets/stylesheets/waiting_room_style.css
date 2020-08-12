@@ -9,3 +9,13 @@
 .pool-name-text{
   margin-top: 1rem;
 }
+
+.game-lobby {
+  margin-top: 2rem;
+  margin-left: 6rem;
+  margin-right: 6rem;
+}
+/* 
+.start-draft-button {
+  max-width: 60%;
+} */

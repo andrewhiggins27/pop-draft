@@ -14,7 +14,7 @@ RSpec.describe Api::V1::TeamsController, type: :controller do
       patch :update, params: {id: team1.id, gameId: game1.id }
       returned_json = JSON.parse(response.body)
 
-      expect(returned_json["error"]).to eq("You must be signed in to vote")
+      expect(returned_json["error"]).to eq("You must be signed in to vote.")
     end
     it "should add one vote to the team" do
       user = FactoryBot.create(:user)

@@ -6,6 +6,7 @@ import { useAlert } from 'react-alert'
 import SelectionTile from '../components/SelectionTile'
 import Teams from '../components/Teams'
 import HoverDescription from '../components/HoverDescription'
+import GameLobby from '../components/GameLobby'
 
 const OnlineDraft = props => {
   const [game, setGame] = useState({
@@ -13,6 +14,7 @@ const OnlineDraft = props => {
     teams: []
   })
   const [user, setUser] = useState(null)
+  const [players, setPlayers] = useState([])
   const [chosen, setChosen] = useState(null)
 
   const alert = useAlert()
@@ -51,25 +53,29 @@ const OnlineDraft = props => {
         setUser(data)
       })
 
-    App.gameChannel = App.cable.subscriptions.create(
-      // Info that is sent to the subscribed method
-      {
-        channel: "GameChannel",
-        game_id: props.gameId
-      },
-      {
-        connected: () => console.log("GameChannel connected"),
-        disconnected: () => console.log("GameChannel disconnected"),
-        received: data => {
-          if (data.not_enough_players) {
-            alert.error("Not Enough Players")
-          } else {
-            handleGameReceipt(data.game)
-            alert.success(data.alert)
+      App.gameChannel = App.cable.subscriptions.create(      
+        {
+          channel: "GameChannel",
+          game_id: props.gameId
+        },
+        {
+          connected: () => {
+            App.gameChannel.send({
+              lobby: true,
+              gameId: props.gameId
+            })
+          },
+          disconnected: () => console.log("GameChannel disconnected"),
+          received: data => {
+            if (data.users) {
+              setPlayers(data.users)
+            } else {
+              handleGameReceipt(data.game)
+              alert.show(data.alert)
+            }
           }
         }
-      }
-    );
+      );
   }, [])
 
   const handleGameReceipt = (game) => {
@@ -177,26 +183,23 @@ const OnlineDraft = props => {
   }
 
   const startGameClick = event => {
-    let payload = {gameId: game.id, start: true}
-    App.gameChannel.send(payload)
+    if (players.length === game.number_of_players){
+      let payload = {gameId: game.id, start: true}
+      App.gameChannel.send(payload)
+    }
   }
 
-  if (game.number_of_players !== game.teams.length) {
-    let startGameButton
-    if (user) {
-      startGameButton = <div className="button large cell alert" onClick={startGameClick}>Start Draft</div>
-    } else {
-      startGameButton = <></>
-    }
+  if (game.status === "waiting") {
     return(
-      <div className="callout">
-        <h5>Waiting for other players to join...</h5>
-        {startGameButton}
-      </div>
+      <GameLobby
+        startGameClick={startGameClick}
+        players={players}
+        totalNumOfPlayers={game.number_of_players}
+      />
     )
   }
 
-  return(
+  return (
     <div className='grid-container draft-page'>
       <div className='callout draft-info'>
         <div className="current-round">
