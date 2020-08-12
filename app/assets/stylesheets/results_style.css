@@ -5,16 +5,15 @@
 }
 
 .results-team-images{
-  background-color: var(--color-3);
   background-repeat: no-repeat;
-  background-size: contain;  
+  background-size: cover;  
   background-position: center center;
-  padding: .5rem;
-  padding-bottom: 5rem;
+  padding: 1rem;
+  padding-bottom: 6rem;
 }
 
 .results-teams-text{
-  font-size: .8rem;
+  font-size: 1rem;
 }
 
 .team-tile {
@@ -29,10 +28,6 @@
   text-align: left;
   padding-left: .2rem;
   padding-right: .2rem;
-}
-
-h4 {
-  font-size: .8rem;
 }
 
 .results-draft-pool-text {

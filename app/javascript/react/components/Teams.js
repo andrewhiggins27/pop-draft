@@ -1,6 +1,8 @@
 import React from 'react'
+import ReactHover, { Trigger, Hover } from 'react-hover'
 
 import TeamSelectionTile from './TeamSelectionTile'
+import SmallHoverDescription from './SmallHoverDescription'
 
 const Teams = props => {
   const clickHandler = event =>{
@@ -9,20 +11,44 @@ const Teams = props => {
     }
   }
 
+  const optionsCursorTrueWithMargin = {
+    followCursor: true,
+    shiftX: 20,
+    shiftY: 0,
+  }
+
   let selectionTiles = props.selections.map(selection => {
     let resultsTeam = true
+    let classes = "small-6 large-4 card team-selection-tile"
+
     if (props.draftInProgress) {
       resultsTeam = false
+      classes = "cell small-4 card team-selection-tile"
     }
 
     return (
-      <TeamSelectionTile
-        key={selection.id}
-        name={selection.name}
-        description={selection.description}
-        image={selection.image}
-        resultsTeam={resultsTeam}
-      />
+      <div key={selection.id} className={classes}>
+        <ReactHover
+        options={optionsCursorTrueWithMargin}>
+          <Trigger type='trigger'>
+            <TeamSelectionTile
+              key={selection.id}
+              name={selection.name}
+              description={selection.description}
+              image={selection.image}
+              resultsTeam={resultsTeam}
+            />
+          </Trigger>
+          <Hover type='hover'>
+            <SmallHoverDescription
+              className="small-hover-description cell"
+              name={selection.name}
+              description={selection.description}
+            />
+          </Hover>
+        </ReactHover>
+
+      </div>
     )
   })
 
@@ -33,7 +59,7 @@ const Teams = props => {
     teamName = `${props.user.username}'s Team`
   }
 
-  let classes = "cell large-6 callout grid-x all-teams"
+  let classes = "cell large-6 grid-x all-teams"
   let voteTotal = <h2 className="cell votes">Votes: {props.votes}</h2>
   
   if (props.chosenTeam) {
