@@ -110,4 +110,8 @@ class Game < ApplicationRecord
   def enough_players?
     self.number_of_players == self.teams.count
   end
+
+  def current_player_username
+    self.teams[self.current_player].user.username
+  end
 end

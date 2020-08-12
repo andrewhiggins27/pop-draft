@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Redirect } from "react-router-dom";
 import ReactHover, { Trigger, Hover } from 'react-hover'
 import { useAlert } from 'react-alert'
+import { confirmAlert } from 'react-confirm-alert'
 
 import SelectionTile from '../components/SelectionTile'
 import Teams from '../components/Teams'
@@ -15,7 +16,7 @@ const OnlineDraft = props => {
   })
   const [user, setUser] = useState(null)
   const [players, setPlayers] = useState([])
-  const [chosen, setChosen] = useState(null)
+  const [selected, setSelected] = useState(false)
 
   const alert = useAlert()
 
@@ -71,7 +72,12 @@ const OnlineDraft = props => {
               setPlayers(data.users)
             } else {
               handleGameReceipt(data.game)
-              alert.show(data.alert)
+              alert.success(data.selection_alert)
+              if (data.game.round !== "complete") {
+                alert.show(data.player_turn_alert)
+              } else {
+                alert.show("Draft complete!")
+              }
             }
           }
         }
@@ -82,18 +88,10 @@ const OnlineDraft = props => {
     setGame(game)
   }
 
-  const chooseSelection = (selectionID) => {
-    if (selectionID === chosen) {
-      setChosen(null)
-    } else {
-      setChosen(selectionID)
-    }
-  }
-
   const makeSelection = (selection, player) => { 
     let payload = {selection: selection, player: player, gameId: game.id, makeSelection: true}
     App.gameChannel.send(payload)
-    setChosen(null)
+    setSelected(false)
   }
   
   const isUsersTurn = () =>{
@@ -101,13 +99,32 @@ const OnlineDraft = props => {
     return currentTeam.user.id === user.user_id
   }
 
-  const draftClick = event => {
-    event.preventDefault()
+  const draftClick = (selectionId) => {
+    let draftPick = game.selections.find(selection => selection.id === selectionId)
+    makeSelection(draftPick.id, game.current_player)
+    setSelected(true)
+  }
+
+  const confirmDraft = (selectionId) => {
+    let draftPick = game.selections.find(selection => selection.id === selectionId)
+
     if (isUsersTurn()) {
-      let draftPick = game.selections.find(selection => selection.id === chosen)
-      makeSelection(draftPick.id, game.current_player)
+      confirmAlert({
+        title: 'Draft?',
+        message: `Do you want to draft ${draftPick.name}?`,
+        buttons: [
+          {
+            label: 'Yes',
+            onClick: () => draftClick(selectionId)
+          },
+          {
+            label: 'No',
+            onClick: () => {}
+          }
+        ]
+      });
     } else {
-      alert.error("It's Not Your Turn to draft!")
+      alert.error("It's not your turn to draft!")
     }
   }
   
@@ -118,10 +135,6 @@ const OnlineDraft = props => {
   }
 
   const selectionTiles = game.selections.map((selection) => {
-    let chosenTile = false
-    if (chosen === selection.id) {
-      chosenTile = true
-    }
 
     return(
       <div className="cell large-3 medium-3 small-4" key={selection.id}>
@@ -133,8 +146,7 @@ const OnlineDraft = props => {
               name={selection.name}
               description={selection.description}
               image={selection.image}
-              chooseSelection={chooseSelection}
-              chosen={chosenTile}
+              confirmDraft={confirmDraft}
             />
           </Trigger>
           <Hover type='hover'>
@@ -175,15 +187,20 @@ const OnlineDraft = props => {
 
   let playerTurn
   if (game.teams[game.current_player]) {
-    if (game.teams[game.current_player].user) {
-      playerTurn = <h2 className="text-center player-turn">{game.teams[game.current_player].user.username}'s Turn</h2>
-    } else {
-    playerTurn = <h2 className="text-center player-turn">{`Team ${game.current_player + 1}'s Turn to Draft!`}</h2>
-    }
+    let currentPlayer = game.teams[game.current_player].user.username
+    playerTurn = 
+      <div>
+        <h2 className="text-center player-turn">
+          {currentPlayer}'s Turn!
+        </h2>
+        <h3 className="text-center player-turn">
+          Double click on selection to draft!
+        </h3>
+      </div>
   }
 
   const startGameClick = event => {
-    if (players.length === game.number_of_players){
+    if (players.length === game.number_of_players) {
       let payload = {gameId: game.id, start: true}
       App.gameChannel.send(payload)
     }
@@ -207,7 +224,6 @@ const OnlineDraft = props => {
         </div>
         {playerTurn}
       </div>
-        {chosen && <div className="button large cell alert" onClick={draftClick}>Draft!</div>}
       <div className='grid-x grid-margin-x'>
         <div className="cell large-3">
           {teamsComponents[0]}
@@ -221,7 +237,6 @@ const OnlineDraft = props => {
           {teamsComponents[3]}
         </div>
       </div>
-        {chosen && <div className="button large cell alert" onClick={draftClick}>Draft!</div>}
     </div>
   )
 }

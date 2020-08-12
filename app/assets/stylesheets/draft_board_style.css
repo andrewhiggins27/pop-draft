@@ -47,6 +47,7 @@
 }
 
 .draft-selection-tile {
+  cursor: pointer;
   border-style: solid;
   border-width: 1px;
   border-color: black;
