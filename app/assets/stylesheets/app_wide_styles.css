@@ -60,7 +60,7 @@ a {
 .small-hover-description {
   width: 10rem;
   z-index: 999;
-  background-color: rgb(23, 23, 23, .5);
+  background-color: rgba(23, 23, 23, .5);
   color: aliceblue;
   padding: .3rem;
   border-radius: 1rem;
