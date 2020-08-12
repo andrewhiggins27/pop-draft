@@ -14,3 +14,17 @@
   margin-left: 6rem;
   margin-right: 6rem;
 }
+
+.waiting-room-games{
+  background-color: #f6f1e9;
+  margin: 1rem;
+  padding: 1rem;
+  border-color: black;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 2rem;
+}
+
+.waiting-games-text {
+  font-size: .9rem;
+}
