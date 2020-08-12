@@ -12,9 +12,15 @@ const GameLobby = props => {
     )
   })
 
+  let waitingMsg = <h5 className="cell small-12">Waiting for other players to join...  {props.players.length}/{props.totalNumOfPlayers}</h5>
+
+  if (props.players.length === props.totalNumOfPlayers) {
+    waitingMsg = <h5 className="cell small-12">Click Start Draft to Begin! {props.players.length}/{props.totalNumOfPlayers}</h5>
+  }
+
   return ( 
     <div className="callout game-lobby grid-x grid-margin-x">
-      <h5 className="cell small-12">Waiting for other players to join...  {props.players.length}/{props.totalNumOfPlayers}</h5>
+      {waitingMsg}
       <div className="button large cell small-6 small-offset-3 alert start-draft-button" onClick={props.startGameClick}>
         Start Draft
       </div>

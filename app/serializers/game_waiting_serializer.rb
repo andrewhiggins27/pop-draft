@@ -1,8 +1,4 @@
 class GameWaitingSerializer < ActiveModel::Serializer
-  attributes :id, :round, :current_player, :status, :created
-
-  def created
-    self.created_at.strftime("%b %e, %l:%M %p")
-  end
+  attributes :id, :status, :created, :created_by, :number_of_players
 
 end

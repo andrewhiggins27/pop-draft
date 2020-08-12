@@ -8,6 +8,7 @@ const WaitingGame = props => {
       <Link to={`/games/${props.id}/online`}>
         <div>
           <h4>Created by: {props.creator}</h4>
+          <h4>Created at: {props.createdAt}</h4>
           <h5>{props.numberOfPlayers} player Draft</h5>
         </div>
       </Link>

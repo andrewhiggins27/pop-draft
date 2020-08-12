@@ -122,6 +122,7 @@ const NewGameContainer = props => {
         id={game.id}
         numberOfPlayers={game.number_of_players}
         creator={game.created_by}
+        createdAt={game.created}
       />  
     )
   })
