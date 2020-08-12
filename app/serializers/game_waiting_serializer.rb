@@ -1,4 +1,4 @@
 class GameWaitingSerializer < ActiveModel::Serializer
-  attributes :id, :round, :current_player, :status
+  attributes :id, :status, :created, :created_by, :number_of_players
 
 end

@@ -14,7 +14,7 @@ class Api::V1::PoolsController < ApplicationController
       pool = Pool.find(params["id"])
       waiting_games = pool.games.where({status: "waiting"}).limit(20).order("created_at DESC")
 
-      render json: waiting_games
+      render json: waiting_games, each_serializer: GameWaitingSerializer
     else
       render json: { error: "You must be signed in to play online" }
     end

@@ -1,6 +1,3 @@
-.start-game {
-  max-width: 90%;
-}
 
 .new-game-page{
   margin-top: 2rem;
@@ -8,6 +5,14 @@
 
 .pool-name-text{
   margin-top: 1rem;
+  padding: 1rem;
+  font-size: 4rem;
+  font-family: 'Londrina Shadow';
+  background-color: rgba(76, 157, 157, 0.9);
+  border-radius: 2rem;
+  border-style: solid;
+  border-color: black;
+  border-width: 1px;
 }
 
 .game-lobby {
@@ -15,7 +20,3 @@
   margin-left: 6rem;
   margin-right: 6rem;
 }
-/* 
-.start-draft-button {
-  max-width: 60%;
-} */

@@ -179,7 +179,7 @@ const ResultsContainer = props => {
 
   let  poolName
   if (game.draft_class) {
-    poolName = <h1 className="pool-name">{game.draft_class.pool.name}</h1>
+    poolName = <h1 className="pool-name-text text-center">{game.draft_class.pool.name}</h1>
   }
 
   return(

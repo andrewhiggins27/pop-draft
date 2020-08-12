@@ -114,4 +114,8 @@ class Game < ApplicationRecord
   def current_player_username
     self.teams[self.current_player].user.username
   end
+
+  def created
+    self.created_at.strftime("%b %e, %l:%M %p")
+  end
 end

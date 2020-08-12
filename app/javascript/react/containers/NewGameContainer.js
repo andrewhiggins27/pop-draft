@@ -122,6 +122,7 @@ const NewGameContainer = props => {
         id={game.id}
         numberOfPlayers={game.number_of_players}
         creator={game.created_by}
+        createdAt={game.created}
       />  
     )
   })
@@ -129,7 +130,7 @@ const NewGameContainer = props => {
   let onlineDraftsMessage = <></>
   if (waitingGames[0]) {
     onlineDraftsMessage = 
-      <div>
+      <div className="online-drafts-msg">
         <h3>Click on a Draft to Join</h3>
       </div>
   }
@@ -143,17 +144,17 @@ const NewGameContainer = props => {
   }
 
   return (
-    <div className="grid-container">
-      <h1 className="pool-name-text">{pool.name}</h1>
+    <div className="grid-container grid-x">
+      <h1 className="pool-name-text text-center">{pool.name}</h1>
       <div className="grid-x grid-margin-x new-game-page">
-        <div className="callout cell small-12 large-6 number-of-players">
-          <h5>Local Draft (no sign-in needed)</h5>  
-          <h5>Choose Number of Players:</h5>  
+        <div className="callout cell small-12 large-6 number-of-players grid-x">
+          <h5 classname="cell">Local Draft (no sign-in needed)</h5>  
+          <h5 className="cell"> Choose Number of Players:</h5>  
           <NumberOfPlayersRadioButtons
             chooseNumberPlayers={chooseNumberPlayers}
             selectedOption={numOfPlayers}
           />
-          <div className="button large cell text-center start-game" onClick={handleStartGameClick}>
+          <div className="button alert cell large large-offset-3 text-center" onClick={handleStartGameClick}>
             Start Local Draft
           </div>
         </div>
@@ -164,10 +165,10 @@ const NewGameContainer = props => {
             chooseNumberPlayers={chooseOnlineNumberPlayers}
             selectedOption={onlineNumOfPlayers}
           /> 
-          <div className="button large cell text-center start-game" onClick={handleStartOnlineGameClick}>
+          <div className="button large alert cell text-center start-game" onClick={handleStartOnlineGameClick}>
             Create Online Draft
           </div>
-          <div className="button large cell text-center start-game" onClick={handleJoinOnlineDraftClick}>
+          <div className="button large alert cell text-center start-game" onClick={handleJoinOnlineDraftClick}>
             Find Online Drafts
           </div>
         </div>
