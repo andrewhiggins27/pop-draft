@@ -130,7 +130,7 @@ const NewGameContainer = props => {
   let onlineDraftsMessage = <></>
   if (waitingGames[0]) {
     onlineDraftsMessage = 
-      <div className="online-drafts-msg">
+      <div className="online-drafts-msg cell small-12">
         <h3>Click on a Draft to Join</h3>
       </div>
   }
