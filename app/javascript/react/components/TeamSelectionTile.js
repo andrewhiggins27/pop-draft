@@ -1,24 +1,21 @@
 import React from 'react'
 
 const TeamSelectionTiles = props => {
-  let classes = "cell small-4 card team-selection-tile"
   let imageClasses = "card-section draft-team-images"
   let h4Classes = "draft-team-text"
 
   if (props.resultsTeam) {
-    classes = "small-6 large-4 card team-selection-tile"
     imageClasses = "card-section results-team-images"
     h4Classes = "results-teams-text"
   }
 
   if (props.resultsDraftPool) {
-    classes = ""
     imageClasses = "card-section results-draft-pool-images"
     h4Classes = "results-draft-pool-text"
   }
 
   return(
-      <div className={classes}>
+      <div>
         <div className="card-divider">
           <h4 className={h4Classes}>{props.name}</h4>
         </div>

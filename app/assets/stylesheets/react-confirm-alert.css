@@ -14,8 +14,8 @@ body.react-confirm-alert-body-element {
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 99;
-  background: rgba(255, 255, 255, 0.9);
+  z-index: 999;
+  background: rgba(255, 255, 255, 0.5);
   display: -webkit-flex;
   display: -moz-flex;
   display: -ms-flex;
@@ -25,10 +25,10 @@ body.react-confirm-alert-body-element {
   -ms-align-items: center;
   align-items: center;
   opacity: 0;
-  -webkit-animation: react-confirm-alert-fadeIn 0.5s 0.2s forwards;
-  -moz-animation: react-confirm-alert-fadeIn 0.5s 0.2s forwards;
-  -o-animation: react-confirm-alert-fadeIn 0.5s 0.2s forwards;
-  animation: react-confirm-alert-fadeIn 0.5s 0.2s forwards;
+  -webkit-animation: react-confirm-alert-fadeIn 0.2s 0.2s forwards;
+  -moz-animation: react-confirm-alert-fadeIn 0.2s 0.2s forwards;
+  -o-animation: react-confirm-alert-fadeIn 0.2s 0.2s forwards;
+  animation: react-confirm-alert-fadeIn 0.2s 0.2s forwards;
 }
 
 .react-confirm-alert-body {
@@ -36,10 +36,10 @@ body.react-confirm-alert-body-element {
   width: 400px;
   padding: 30px;
   text-align: left;
-  background: #fff;
+  background: var(--color-5);
   border-radius: 10px;
   box-shadow: 0 20px 75px rgba(0, 0, 0, 0.13);
-  color: #666;
+  color: aliceblue;
 }
 
 .react-confirm-alert-svg {
@@ -76,7 +76,7 @@ body.react-confirm-alert-body-element {
   color: #eee;
   margin-right: 10px;
   border-radius: 5px;
-  font-size: 12px;
+  font-size: 20px;
   cursor: pointer;
 }
 
