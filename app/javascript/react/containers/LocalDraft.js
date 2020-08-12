@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Redirect } from "react-router-dom";
 import ReactHover, { Trigger, Hover } from 'react-hover'
 import { useAlert } from 'react-alert'
+import { confirmAlert } from 'react-confirm-alert'
 
 import SelectionTile from '../components/SelectionTile'
 import Teams from '../components/Teams'
@@ -12,7 +13,7 @@ const LocalDraft = props => {
     selections: [],
     teams: []
   })
-  const [chosen, setChosen] = useState(null)
+  const [selected, setSelected] = useState(false)
 
   const alert = useAlert()
 
@@ -32,6 +33,7 @@ const LocalDraft = props => {
       .then(response => response.json())
       .then(body => {
         setGame(body.game)
+        alert.show("Begin Draft!")
       })
       .catch(error => console.error(`Error in fetch: ${error.message}`))
   }, [])
@@ -59,29 +61,41 @@ const LocalDraft = props => {
     .then(response => response.json())
     .then(body => {
       setGame(body.game)
+      alert.show(`Team ${body.game.current_player + 1}'s turn to draft`)
     })
     .catch((error) => console.error(`Error in fetch: ${error.message}`))
-  }
-
-  const chooseSelection = (selectionID) => {
-    if (selectionID === chosen) {
-      setChosen(null)
-    } else {
-      setChosen(selectionID)
-    }
   }
 
   const makeSelection = (selection, player) => { 
     let payload = {selection: selection, player: player, round: game.round}
     fetchPatch(payload, `/api/v1/games/${game.id}`)
-    setChosen(null)
+    setSelected(false)
   }
 
-  const draftClick = event => {
-    event.preventDefault()
-    let draftPick = game.selections.find(selection => selection.id === chosen)
-    alert.show(`Player ${game.current_player + 1} selects... ${draftPick.name}`)
+  const draftClick = (selectionId) => {
+    let draftPick = game.selections.find(selection => selection.id === selectionId)
+    alert.success(`Team ${game.current_player + 1} selects... ${draftPick.name}`)
     makeSelection(draftPick.id, game.current_player)
+    setSelected(true)
+  }
+
+  const confirmDraft = (selectionId) => {
+    let draftPick = game.selections.find(selection => selection.id === selectionId)
+
+    confirmAlert({
+      title: 'Draft?',
+      message: `Do you want to draft ${draftPick.name}?`,
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: () => draftClick(selectionId)
+        },
+        {
+          label: 'No',
+          onClick: () => {}
+        }
+      ]
+    });
   }
 
   const optionsCursorTrueWithMargin = {
@@ -91,11 +105,6 @@ const LocalDraft = props => {
   }
 
   const selectionTiles = game.selections.map((selection) => {
-    let chosenTile = false
-    if (chosen === selection.id) {
-      chosenTile = true
-    }
-
     return(
       <div className="cell large-3 medium-3 small-4" key={selection.id}>
         <ReactHover
@@ -106,8 +115,7 @@ const LocalDraft = props => {
               name={selection.name}
               description={selection.description}
               image={selection.image}
-              chooseSelection={chooseSelection}
-              chosen={chosenTile}
+              confirmDraft={confirmDraft}
             />
           </Trigger>
           <Hover type='hover'>
@@ -148,13 +156,13 @@ const LocalDraft = props => {
 
   let playerTurn
   if (game.teams[game.current_player]) {
-    if (game.teams[game.current_player].user) {
-      playerTurn = <h2 className="text-center player-turn">{game.teams[game.current_player].user.email}'s Turn</h2>
-    } else {
-      playerTurn = <h2 className="text-center player-turn">{`Team ${game.current_player + 1}'s Turn to Draft!`}</h2>
-    }
+    playerTurn = 
+      <div>
+        <h2 className="text-center player-turn">{`Team ${game.current_player + 1}'s Turn to Draft!`}</h2>
+        <h3 className="text-center player-turn">Double click on selection to draft! </h3>
+      </div>
   }
-
+  
   return(
     <div className='grid-container draft-page'>
       <div className='callout draft-info'>
@@ -163,7 +171,6 @@ const LocalDraft = props => {
         </div>
         {playerTurn}
       </div>
-        {chosen && <div className="button large cell alert" onClick={draftClick}>Draft!</div>}
       <div className='grid-x grid-margin-x'>
         <div className="cell large-3">
           {teamsComponents[0]}
@@ -177,7 +184,6 @@ const LocalDraft = props => {
           {teamsComponents[3]}
         </div>
       </div>
-        {chosen && <div className="button large cell alert" onClick={draftClick}>Draft!</div>}
     </div>
   )
 }

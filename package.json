@@ -26,7 +26,8 @@
     "lodash": "4.17.15",
     "react-hover": "2.0.0",
     "react-alert": "7.0.2",
-    "react-alert-template-basic": "1.0.0"
+    "react-alert-template-basic": "1.0.0",
+    "react-confirm-alert": "2.6.1"
   },
   "devDependencies": {
     "webpack-dev-server": "^2.11.1",
