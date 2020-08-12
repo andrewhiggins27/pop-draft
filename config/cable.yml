@@ -6,6 +6,6 @@ test:
 
 production:
   adapter: redis
-  url: redis://redistogo:642058a6714b5c467f99b3f9f044c240@pike.redistogo.com:11901/
+  url: ENV["REDIS_KEY"]
   channel_prefix: fantasy-fantasy-draft_production
 
