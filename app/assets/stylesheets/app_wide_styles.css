@@ -69,3 +69,7 @@ a {
 .small-hover-name{
   font-size: 1.2rem;
 }
+
+.underline-text {
+  text-decoration: underline;
+}
