@@ -14,6 +14,7 @@ const LocalDraft = props => {
     teams: []
   })
   const [selected, setSelected] = useState(false)
+  const [disableClick, setDisableClick] = useState(false)
 
   const alert = useAlert()
 
@@ -91,7 +92,11 @@ const LocalDraft = props => {
       buttons: [
         {
           label: 'Yes',
-          onClick: () => draftClick(selectionId)
+          onClick: () => {
+            draftClick(selectionId)
+            setDisableClick(true)
+            setTimeout(() => setDisableClick(false), 2000);
+          }
         },
         {
           label: 'No',
@@ -119,6 +124,7 @@ const LocalDraft = props => {
               description={selection.description}
               image={selection.image}
               confirmDraft={confirmDraft}
+              disableClick={disableClick}
             />
           </Trigger>
           <Hover type='hover'>
