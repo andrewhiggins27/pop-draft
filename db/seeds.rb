@@ -5,7 +5,7 @@ Selection.destroy_all
 Pool.destroy_all
 Game.destroy_all
 
-## The following methods run faraday requests to 3rd party APIs to seed database. Can be buggy on Heroku, but works in development
+## The following methods run faraday requests to 3rd party APIs to seed database. Buggy on Heroku, but works in development
 # PokemonSeeder.seed!
 # MiyazakiSeeder.seed!
 # SuperheroSeeder.seed!
