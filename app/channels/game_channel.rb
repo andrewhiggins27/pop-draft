@@ -4,6 +4,33 @@ class GameChannel < ApplicationCable::Channel
   end
 
   def unsubscribed
+    if current_user.teams.last.game
+      game = current_user.teams.last.game
+    else
+      game = {}
+    end
+
+    if game.status == "waiting"
+     team = game.find_user_team(current_user)
+     team.destroy
+     if game.teams.count == 0
+      game.destroy
+     end
+     users = []
+
+     game.teams.each do |team|
+       users << team.user.username
+     end
+ 
+     ActionCable.server.broadcast("game_#{game.id}", { users: users })
+    end
+
+    if game.status == "in progress"
+      game.destroy
+      error = "Connection Error! Game cannot continue"
+      
+      ActionCable.server.broadcast("game_#{game.id}", { error: error })
+    end
   end
 
   def receive(data)
