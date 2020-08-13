@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import MessageWindow from '../components/MessageWindow'
 import TextFieldWithSubmit from '../components/TextFieldWithSubmit';
@@ -7,12 +7,6 @@ const ChatContainer = (props) => {
   const [user, setUser] = useState({})
   const [messages, setMessages] = useState([])
   const [message, setMessage] = useState("")
-
-  // const messagesEndRef = useRef(null)
-  // const scrollToBottom = () => {
-  //   messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
-  // }
-  // useEffect(scrollToBottom, [props.messages]);
 
   useEffect(() => {
     let chatId = props.id
@@ -68,16 +62,6 @@ const ChatContainer = (props) => {
   const handleMessageChange = (event) => {
     setMessage(event.target.value)
   }
-
-  // let messagesComponents = messages.map(message => {
-  //   return(
-  //     <Message
-  //       key={message.messageId}
-  //       handle={message.user.username}
-  //       message={message.message}
-  //     />
-  //   )
-  // }, this);
 
   return(
     <div className="chat-window">
