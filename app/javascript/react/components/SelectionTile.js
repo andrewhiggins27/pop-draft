@@ -9,7 +9,7 @@ const SelectionTile = props => {
   }
 
   return (
-    <div className={classes} onDoubleClick={handleClick}>
+    <div className={classes} onClick={handleClick}>
       <div className={cardDividerClasses}>
         <h4 className="selection-text">{props.name}</h4>
       </div>

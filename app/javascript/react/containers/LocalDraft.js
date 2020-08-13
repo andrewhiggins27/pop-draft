@@ -61,7 +61,11 @@ const LocalDraft = props => {
     .then(response => response.json())
     .then(body => {
       setGame(body.game)
-      alert.show(`Team ${body.game.current_player + 1}'s turn to draft`)
+      if (body.game.round !== "complete") {
+        alert.show(`Team ${body.game.current_player + 1}'s turn to draft`)
+      } else {
+        alert.show("Draft complete!")
+      }
     })
     .catch((error) => console.error(`Error in fetch: ${error.message}`))
   }
