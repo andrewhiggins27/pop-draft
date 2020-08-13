@@ -6,8 +6,8 @@ import SmallHoverDescription from './SmallHoverDescription'
 
 const Teams = props => {
   const clickHandler = event =>{
-    if (props.chooseTeam) {
-      props.chooseTeam(props.id)
+    if (props.submitVote) {
+      props.submitVote(props.id)
     }
   }
 
@@ -62,9 +62,6 @@ const Teams = props => {
   let classes = "cell large-6 grid-x all-teams"
   let voteTotal = <h2 className="cell votes">Votes: {props.votes}</h2>
   
-  if (props.chosenTeam) {
-    classes += " chosen-tile"
-  }
   if (props.draftInProgress) {
     classes += " draft-team"
     voteTotal = <></>

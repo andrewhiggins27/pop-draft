@@ -7,7 +7,7 @@ class Api::V1::TeamsController < ApplicationController
 
     if current_user
       if current_user.voted_for? team
-        render json: {error: "You already voted for this team."}
+        render json: {error: "Only one vote per user!"}
       else
         team.liked_by current_user
         game.teams.where("id != #{team.id}").each do |team|

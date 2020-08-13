@@ -8,7 +8,6 @@ import Teams from '../components/Teams'
 
 const ResultsContainer = props => {
   const [game, setGame] = useState({})
-  const [chosen, setChosen] = useState(null)
 
   const alert = useAlert()
 
@@ -32,14 +31,6 @@ const ResultsContainer = props => {
       })
       .catch(error => console.error(`Error in fetch: ${error.message}`))
   }, [])
-
-  const chooseTeam = (chosenId) => {
-    if (chosenId === chosen) {
-      setChosen(null)
-    } else {
-      setChosen(chosenId)
-    }
-  }
 
   const handleNewResultsClick = event => {
     event.preventDefault()
@@ -70,9 +61,8 @@ const ResultsContainer = props => {
     .catch((error) => console.error(`Error in fetch: ${error.message}`))
   }
 
-  const handleVoteClick = event => {
-    event.preventDefault()
-    fetch(`/api/v1/teams/${chosen}`, {
+  const handleVoteClick = (teamId) => {
+    fetch(`/api/v1/teams/${teamId}`, {
       credentials: "same-origin",
       method: "PATCH",
       body: JSON.stringify({
@@ -156,10 +146,6 @@ const ResultsContainer = props => {
   let finalTeams
   if (game.teams) {
     finalTeams = game.teams.map((team, i)=> {
-      let chosenTeam = false
-      if (chosen === team.id) {
-        chosenTeam = true
-      }
       return (
         <Teams
           key={team.id}
@@ -168,8 +154,7 @@ const ResultsContainer = props => {
           index={i}
           selections={team.selections}
           votes={team.votes}
-          chosenTeam={chosenTeam}
-          chooseTeam={chooseTeam}
+          submitVote={handleVoteClick}
         />
       )
     })
@@ -191,8 +176,7 @@ const ResultsContainer = props => {
           View Another Game
         </div>
       </div>
-      <h1 className='cell londrina-solid'>Final Teams: (Vote for the winner!)</h1>
-      {chosen && <div className="button large cell alert" onClick={handleVoteClick}>Submit Vote!</div>}
+      <h1 className='cell londrina-solid'>Final Teams: (Click on team to vote for the winner!)</h1>
       <div className="grid-x grid-margin-x final-teams">
         {finalTeams}
       </div>
