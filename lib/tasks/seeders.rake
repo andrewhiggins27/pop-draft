@@ -27,3 +27,9 @@ end
 task :morty do
   MortySeeder.seed!
 end
+
+task :clearpools do
+  Selection.destroy_all
+  Pool.destroy_all
+  Game.destroy_all
+end
