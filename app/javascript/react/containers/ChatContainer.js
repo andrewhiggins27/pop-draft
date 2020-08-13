@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import Message from '../components/Message';
+
+import MessageWindow from '../components/MessageWindow'
 import TextFieldWithSubmit from '../components/TextFieldWithSubmit';
 
 const ChatContainer = (props) => {
@@ -7,9 +8,8 @@ const ChatContainer = (props) => {
   const [messages, setMessages] = useState([])
   const [message, setMessage] = useState("")
 
-
   useEffect(() => {
-    let chatId = props.match.params.id
+    let chatId = props.id
 
     fetch("/api/v1/users/current", {
       credentials: 'same-origin',
@@ -27,18 +27,14 @@ const ChatContainer = (props) => {
     })
 
     App.chatChannel = App.cable.subscriptions.create(
-      // Info that is sent to the subscribed method
       {
         channel: "ChatChannel",
         chat_id: chatId
       },
       {
-        connected: () => console.log("ChatChannel connected"),
-        disconnected: () => console.log("ChatChannel disconnected"),
+        connected: () => {},
+        disconnected: () => {},
         received: data => {
-          // debugger
-          // Data broadcasted from the chat channel
-          console.log(data)
           handleMessageReceipt(data)
         }
       }
@@ -55,8 +51,6 @@ const ChatContainer = (props) => {
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    // debugger
-    // Send info to the receive method on the back end
     App.chatChannel.send({
      message: message,
      user: user
@@ -69,20 +63,16 @@ const ChatContainer = (props) => {
     setMessage(event.target.value)
   }
 
-  let messagesComponents = messages.map(message => {
-    return(
-      <Message
-        key={message.messageId}
-        handle={message.user.handle}
-        message={message.message}
-      />
-    )
-  }, this);
-
   return(
-    <div>
+    <div className="chat-window">
       <div className='callout chat' id='chatWindow'>
-        {messagesComponents}
+        <h4 className="underline-text">Chat:</h4>
+        <div className="message-window medium-cell-block-y">
+
+        <MessageWindow 
+          messages={messages}
+        />
+        </div>
       </div>
       <form onSubmit={handleFormSubmit}>
         <TextFieldWithSubmit
@@ -92,7 +82,7 @@ const ChatContainer = (props) => {
         />
       </form>
     </div>
-  );
+);
 }
 
 export default ChatContainer;

@@ -117,3 +117,13 @@
   padding-left: .2rem;
   padding-right: .2rem;
 }
+
+.chat-window {
+  margin-top: 1rem;
+  margin-left: 4rem;
+  margin-right: 4rem;
+}
+
+.message-window {
+  height: 10rem;
+}

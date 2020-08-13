@@ -8,6 +8,7 @@ import SelectionTile from '../components/SelectionTile'
 import Teams from '../components/Teams'
 import HoverDescription from '../components/HoverDescription'
 import GameLobby from '../components/GameLobby'
+import ChatContainer from '../containers/ChatContainer'
 
 const OnlineDraft = props => {
   const [game, setGame] = useState({
@@ -36,7 +37,12 @@ const OnlineDraft = props => {
       })
       .then(response => response.json())
       .then(body => {
-        setGame(body.game)
+        if (body.game) {
+          setGame(body.game)
+        } else {
+          alert.error("A Connection Issue Occured")
+          setShouldRedirect(true)
+        }
       })
       .catch(error => console.error(`Error in fetch: ${error.message}`))
 
@@ -234,6 +240,9 @@ const OnlineDraft = props => {
         </div>
         {playerTurn}
       </div>
+      <ChatContainer
+        id={props.gameId}
+      />
       <div className='grid-x grid-margin-x'>
         <div className="cell large-3">
           {teamsComponents[0]}

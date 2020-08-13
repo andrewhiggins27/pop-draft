@@ -14,9 +14,12 @@ class Api::V1::GamesController < ApplicationController
   end
 
   def show
-    game = Game.find(params["id"])
-
-    render json: game
+    if Game.where(id: params["id"]).empty?
+      render json: {conn_error: "Game not found."}
+    else
+      game = Game.find(params["id"])
+      render json: game
+    end
   end
 
   def update

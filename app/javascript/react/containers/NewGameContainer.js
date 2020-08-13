@@ -151,7 +151,7 @@ const NewGameContainer = props => {
       <h1 className="pool-name-text text-center">{pool.name}</h1>
       <div className="grid-x grid-margin-x new-game-page">
         <div className="callout cell small-12 large-6 number-of-players grid-x">
-          <h5 className="cell">Local Draft (One Laptop, take turns drafting)</h5>  
+          <h5 className="cell">Local Draft (No sign in required, but you will need to sign in to vote on winners.)</h5>  
           <h5 className="cell"> Choose Number of Players:</h5>  
           <NumberOfPlayersRadioButtons
             chooseNumberPlayers={chooseNumberPlayers}
