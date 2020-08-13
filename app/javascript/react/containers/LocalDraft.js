@@ -162,7 +162,7 @@ const LocalDraft = props => {
     playerTurn = 
       <div>
         <h2 className="text-center player-turn">{`Team ${game.current_player + 1}'s Turn to Draft!`}</h2>
-        <h3 className="text-center player-turn">Double click on selection to draft! </h3>
+        <h3 className="text-center player-turn">Click on selection to draft! </h3>
       </div>
   }
   

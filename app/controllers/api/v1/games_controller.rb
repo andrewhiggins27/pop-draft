@@ -2,9 +2,15 @@ class Api::V1::GamesController < ApplicationController
   protect_from_forgery unless: -> { request.format.json? }
 
   def create
-    random_game = Game.find_random_game(params["gameId"])
+    if Game.all.count < 2
+      game = Game.find(params["gameId"])
 
-    render json: random_game
+      render json: game
+    else
+      random_game = Game.find_random_game(params["gameId"])
+
+      render json: random_game
+    end
   end
 
   def show

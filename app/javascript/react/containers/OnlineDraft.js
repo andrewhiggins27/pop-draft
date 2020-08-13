@@ -193,7 +193,7 @@ const OnlineDraft = props => {
           {currentPlayer}'s Turn!
         </h2>
         <h3 className="text-center player-turn">
-          Double click on selection to draft!
+          Click on selection to draft!
         </h3>
       </div>
   }
