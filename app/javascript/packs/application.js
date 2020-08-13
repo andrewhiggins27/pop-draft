@@ -10,10 +10,10 @@ import RedBox from 'redbox-react'
 const options = {
   // you can also just use 'bottom center'
   position: positions.BOTTOM_CENTER,
-  timeout: 5000,
+  timeout: 2500,
   offset: '10px',
   // you can also just use 'scale'
-  transition: transitions.FADE
+  transition: transitions.SCALE
 }
 
 const Root = () => (
