@@ -50,16 +50,6 @@ class GameChannel < ApplicationCable::Channel
         users << team.user.username
       end
       ActionCable.server.broadcast("game_#{data["gameId"]}", { users: users})
-    # elsif data["disconnect"]
-    #   game = Game.find(data["gameId"])
-    #   puts "Hellllllllllllllllllllllllllllllllllllllllllllllllllllllllllllpppppppppppppppppppppppppp meeeeeeeeeeee"
-    #   if game.status == "waiting"
-    #     team = game.find_user_team(current_user)
-    #     team.destroy
-    #     if game.teams.count == 0
-    #       game.destroy
-    #     end
-    #   end
     elsif game.enough_players?
       if (data["start"] && game.enough_players?)
         game = Game.find(data["gameId"])
