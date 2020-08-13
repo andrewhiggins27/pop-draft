@@ -5,7 +5,11 @@ const SelectionTile = props => {
   let cardDividerClasses = "card-divider selection-text-box"
 
   const handleClick = event => {
-    props.confirmDraft(props.id)
+    if (props.disableClick) {
+
+    } else {
+      props.confirmDraft(props.id)
+    }
   }
 
   return (
