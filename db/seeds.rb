@@ -1,18 +1,18 @@
 require 'faraday'
 require 'faraday_middleware'
 
-# Selection.destroy_all
-# Pool.destroy_all
-# Game.destroy_all
+Selection.destroy_all
+Pool.destroy_all
+Game.destroy_all
 
 ## - First 150 pokemon - ##
-# PokemonSeeder.seed!
+PokemonSeeder.seed!
 
 ## - Miyazaki Characters - ##
-# MiyazakiSeeder.seed!
+MiyazakiSeeder.seed!
 
 ## - Comic Book Superheros - ##
-# SuperheroSeeder.seed!
+SuperheroSeeder.seed!
 
 ## - Pixar Movies - ##
 TMDBSeeder.pixar_seed!
