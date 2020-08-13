@@ -108,6 +108,8 @@ const NewGameContainer = props => {
       .then(body => {
         if (body.error) {
           alert.error(body.error)
+        } else if (body.games.length === 0) {
+          alert.error("No games found.")
         } else {
           setWaitingGames(body.games)
         }
@@ -121,6 +123,7 @@ const NewGameContainer = props => {
         key={game.id}
         id={game.id}
         numberOfPlayers={game.number_of_players}
+        currentNumOfPlayers={game.current_num_of_players}
         creator={game.created_by}
         createdAt={game.created}
       />  
@@ -148,7 +151,7 @@ const NewGameContainer = props => {
       <h1 className="pool-name-text text-center">{pool.name}</h1>
       <div className="grid-x grid-margin-x new-game-page">
         <div className="callout cell small-12 large-6 number-of-players grid-x">
-          <h5 classname="cell">Local Draft (no sign-in needed)</h5>  
+          <h5 className="cell">Local Draft (One Laptop, take turns drafting)</h5>  
           <h5 className="cell"> Choose Number of Players:</h5>  
           <NumberOfPlayersRadioButtons
             chooseNumberPlayers={chooseNumberPlayers}
@@ -174,7 +177,7 @@ const NewGameContainer = props => {
         </div>
       </div>
       {onlineDraftsMessage}
-      <div className="grid-x grid-margin-x">
+      <div className="cell small-12 grid-x grid-margin-x">
         {waitingGameComponents}
       </div>
     </div>

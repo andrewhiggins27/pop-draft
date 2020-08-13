@@ -118,4 +118,12 @@ class Game < ApplicationRecord
   def created
     self.created_at.strftime("%b %e, %l:%M %p")
   end
+
+  def find_user_team(user)
+    Team.where({game: self, user: user})[0]
+  end
+
+  def current_num_of_players
+    self.teams.count
+  end
 end

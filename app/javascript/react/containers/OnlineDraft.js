@@ -17,6 +17,7 @@ const OnlineDraft = props => {
   const [user, setUser] = useState(null)
   const [players, setPlayers] = useState([])
   const [selected, setSelected] = useState(false)
+  const [shouldRedirect, setShouldRedirect] = useState(false)
 
   const alert = useAlert()
 
@@ -66,10 +67,13 @@ const OnlineDraft = props => {
               gameId: props.gameId
             })
           },
-          disconnected: () => console.log("GameChannel disconnected"),
+          disconnected: () => {},
           received: data => {
             if (data.users) {
               setPlayers(data.users)
+            } else if (data.error) {
+              alert.error(data.error)
+              setShouldRedirect(true)
             } else {
               handleGameReceipt(data.game)
               alert.success(data.selection_alert)
@@ -173,12 +177,6 @@ const OnlineDraft = props => {
     )
   })
 
-  if (game.round === "complete") {
-    return (
-      <Redirect to={`/games/${game.id}/results`} />
-    )
-  }
-
   let currentRound = <h2 className='text-center round-text'>Round {game.round}</h2>
   if (game.round === "6") {
     currentRound = <h2 className='text-center round-text'>FINAL ROUND</h2>
@@ -202,6 +200,8 @@ const OnlineDraft = props => {
     if (players.length === game.number_of_players) {
       let payload = {gameId: game.id, start: true}
       App.gameChannel.send(payload)
+    } else if (players.length > game.number_of_players) {
+      alert.error("Too many players in lobby")
     }
   }
 
@@ -211,8 +211,19 @@ const OnlineDraft = props => {
         startGameClick={startGameClick}
         players={players}
         totalNumOfPlayers={game.number_of_players}
+        poolName={game.draft_class.pool.name}
       />
     )
+  }
+
+  if (game.round === "complete") {
+    return (
+      <Redirect to={`/games/${game.id}/results`} />
+    )
+  }
+
+  if (shouldRedirect) {
+    return <Redirect to='/'/>
   }
 
   return (

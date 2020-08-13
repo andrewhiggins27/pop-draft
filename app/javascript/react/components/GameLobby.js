@@ -18,15 +18,18 @@ const GameLobby = props => {
     waitingMsg = <h5 className="cell small-12">Click Start Draft to Begin! {props.players.length}/{props.totalNumOfPlayers}</h5>
   }
 
-  return ( 
-    <div className="callout game-lobby grid-x grid-margin-x">
-      {waitingMsg}
-      <div className="button large cell small-6 small-offset-3 alert start-draft-button" onClick={props.startGameClick}>
-        Start Draft
-      </div>
-      <h5 className="cell small-12">Players in Lobby:</h5>
-      <div className="callout cell small-12 grid-x grid-margin-x">
-        {lobbyPlayers}
+  return (
+    <div>
+      <div className="callout game-lobby grid-x grid-margin-x">
+      <h1>{props.poolName}</h1>
+        {waitingMsg}
+        <div className="button large cell small-6 small-offset-3 alert start-draft-button" onClick={props.startGameClick}>
+          Start Draft
+        </div>
+        <h5 className="cell small-12">Players in Lobby:</h5>
+        <div className="callout cell small-12 grid-x grid-margin-x">
+          {lobbyPlayers}
+        </div>
       </div>
     </div>
   )

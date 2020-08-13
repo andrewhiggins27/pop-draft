@@ -89,7 +89,6 @@ const ResultsContainer = props => {
         setChosen(null)
       } else {
         setGame(body.game)
-        setChosen(null)
         alert.success("Vote Successful")
       }
     })
