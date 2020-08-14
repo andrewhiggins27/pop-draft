@@ -244,14 +244,14 @@ const OnlineDraft = props => {
         id={props.gameId}
       />
       <div className='grid-x grid-margin-x'>
-        <div className="cell large-3">
+        <div className="cell large-3 medium-3">
           {teamsComponents[0]}
           {teamsComponents[2]}
         </div>
-        <div className='grid-x grid-padding-x cell large-6 draft-board'>
+        <div className='grid-x grid-padding-x cell large-6 medium-6 draft-board'>
           {selectionTiles}
         </div>
-        <div className="cell large-3">
+        <div className="cell large-3 medium-3">
           {teamsComponents[1]}
           {teamsComponents[3]}
         </div>
