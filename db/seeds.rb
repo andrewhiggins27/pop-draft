@@ -25,17 +25,17 @@ morty_pool = Pool.create(name: "Rick and Morty Characters")
 
 selections.each do |selection|
   case selection["pool_id"]
-  when "10"
+  when "28"
     pool = pokemon_pool
-  when "11"
+  when "29"
     pool = miyazaki_pool
-  when "12"
+  when "30"
     pool = superhero_pool
-  when "13"
+  when "31"
     pool = pixar_pool
-  when "14"
+  when "32"
     pool = denzel_pool
-  when "15"
+  when "33"
     pool = morty_pool
   end
 
