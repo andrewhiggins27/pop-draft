@@ -7,25 +7,24 @@ class GameChannel < ApplicationCable::Channel
     if current_user.teams.last.game
       game = current_user.teams.last.game
     else
-      game = {}
+      game = { status: "" }
     end
 
-    if game.status == "waiting"
+    if game["status"] == "waiting"
      team = game.find_user_team(current_user)
      team.destroy
+
      if game.teams.count == 0
       game.destroy
      end
-     users = []
 
+     users = []
      game.teams.each do |team|
        users << team.user.username
      end
  
      ActionCable.server.broadcast("game_#{game.id}", { users: users })
-    end
-
-    if game.status == "in progress"
+    elsif game["status"] == "in progress"
       game.destroy
       error = "Connection Error! Game cannot continue"
       

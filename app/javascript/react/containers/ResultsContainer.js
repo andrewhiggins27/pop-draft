@@ -115,7 +115,7 @@ const ResultsContainer = props => {
       })
 
       return(
-        <div className="small-4 large-2 card team-selection-tile" key={selection.id}>
+        <div className="small-6 large-2 card team-selection-tile" key={selection.id}>
           <ReactHover options={optionsCursorTrueWithMargin}>
             <Trigger type='trigger'>
               <div className={opacityClass}>
