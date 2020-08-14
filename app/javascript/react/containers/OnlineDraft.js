@@ -229,7 +229,7 @@ const OnlineDraft = props => {
   }
 
   if (shouldRedirect) {
-    return <Redirect to='/'/>
+    return <Redirect to='/pools'/>
   }
 
   return (

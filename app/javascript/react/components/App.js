@@ -5,6 +5,7 @@ import ResultsContainer from '../containers/ResultsContainer';
 import HomeContainer from '../containers/HomeContainer'
 import NewGameContainer from '../containers/NewGameContainer'
 import DraftShowContainer from '../containers/DraftShowContainer'
+import LandingPageContainer from '../containers/LandingPageContainer'
 
 export const App = (props) => {
 
@@ -12,7 +13,8 @@ export const App = (props) => {
     <div>
       <BrowserRouter>
         <Switch>
-          <Route exact path="/" component={HomeContainer} />
+          <Route exact path="/" component={LandingPageContainer} />
+          <Route exact path="/pools" component={HomeContainer} />
           <Route exact path="/pools/:id/games/new" component={NewGameContainer} />
           <Route exact path="/games/:id/results" component={ResultsContainer} />
           <Route exact path="/games/:id/:status" component={DraftShowContainer} />

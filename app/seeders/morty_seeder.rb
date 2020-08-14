@@ -4,7 +4,7 @@ class MortySeeder
   def self.seed!
     morty_pool = Pool.create(name: "Rick and Morty Characters")
     num = 1
-    while num <= 15 do
+    while num <= 29 do
       morty_conn = Faraday.get("https://rickandmortyapi.com/api/character/?page=#{num}")
       morty_conn_response = JSON.parse(morty_conn.body)
 

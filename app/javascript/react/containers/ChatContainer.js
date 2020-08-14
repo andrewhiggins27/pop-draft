@@ -66,12 +66,12 @@ const ChatContainer = (props) => {
   return(
     <div className="chat-window">
       <div className='callout chat' id='chatWindow'>
-        <h4 className="underline-text">Chat:</h4>
+        <h4 className="underline-text">Chat</h4>
+        <hr></hr>
         <div className="message-window medium-cell-block-y">
-
-        <MessageWindow 
-          messages={messages}
-        />
+          <MessageWindow 
+            messages={messages}
+          />
         </div>
       </div>
       <form onSubmit={handleFormSubmit}>
