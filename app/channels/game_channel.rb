@@ -38,6 +38,7 @@ class GameChannel < ApplicationCable::Channel
     if game.status == "waiting" && current_user
       if game.does_not_include_user?(current_user)
         Team.create(game: game, user: current_user)
+        game.users << current_user
       end
     end
     

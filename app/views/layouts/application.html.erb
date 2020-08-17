@@ -14,7 +14,9 @@
   
   <nav class="top-bar nav-bar">
     <h1><a href="/pools" class="site-title">PopDraft</a></h1>
-
+    <%- if current_user -%>
+      <li class='sign-out'><%= link_to 'View your completed games', user_games_path(current_user), class: "sign-out"%></li>
+    <%- end -%>
     <section class="top-bar-section">
       <div class="right">
         <%- if current_user -%>

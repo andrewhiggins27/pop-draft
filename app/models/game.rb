@@ -30,6 +30,7 @@ class Game < ApplicationRecord
     number_of_players = num_players.to_i
     pool = Pool.find(poolId)
     game = Game.create(status: "waiting", number_of_players: number_of_players, created_by: user.username)
+    game.users << user
     selections = pool.selections.sample(10 * number_of_players)
     game.selections = selections
     Team.create(game: game, user: user)

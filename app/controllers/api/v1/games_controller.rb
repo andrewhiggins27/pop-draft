@@ -1,6 +1,13 @@
 class Api::V1::GamesController < ApplicationController
   protect_from_forgery unless: -> { request.format.json? }
 
+  def index
+    user = User.find(params["user_id"])
+    user_games = user.games.where(status: "complete")
+
+    render json: user_games, each_serializer: UsergamesSerializer
+  end
+
   def create
     if Game.all.count < 2
       game = Game.find(params["gameId"])
