@@ -10,7 +10,6 @@ RSpec.describe Api::V1::GamesController, type: :controller do
   let!(:selection2) {Selection.create(name:"selection2", description: "description2", image: "image2.png", pool: pool1)}
   let!(:selection3) {Selection.create(name:"selection3", description: "description3", image: "image3.png", pool: pool1)}
 
-
   describe "POST#Create" do
     it "return a status of 200" do
       post :create, params: { gameId: game1.id }
@@ -40,6 +39,13 @@ RSpec.describe Api::V1::GamesController, type: :controller do
       returned_json = JSON.parse(response.body)
 
       expect(returned_json["game"]["id"]).to eq(game1.id)
+    end
+    it "returns json with error message if no game is found" do
+      get :show, params: { id: 0 }
+
+      returned_json = JSON.parse(response.body)
+
+      expect(returned_json["conn_error"]).to eq("Game not found.")
     end
   end
   describe "PATCH#Update" do  
