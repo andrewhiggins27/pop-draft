@@ -36,5 +36,15 @@ RSpec.describe Api::V1::TeamsController, type: :controller do
       expect(returned_json["game"]["teams"].first["votes"]).to eq(0)
       expect(returned_json["game"]["teams"].last["votes"]).to eq(1)
     end
+    it "should return error if user submits vote for a team they already voted for" do
+      user = FactoryBot.create(:user)
+      sign_in user
+
+      patch :update, params: {id: team1.id, gameId: game1.id }
+      patch :update, params: {id: team1.id, gameId: game1.id }
+      returned_json = JSON.parse(response.body)
+
+      expect(returned_json["error"]).to eq("Only one vote per user!")
+    end
   end
 end

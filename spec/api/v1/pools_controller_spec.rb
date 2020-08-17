@@ -34,6 +34,7 @@ RSpec.describe Api::V1::PoolsController, type: :controller do
       expect(response.status).to eq 200
       expect(response.content_type).to eq "application/json"
     end
+
     it "returns the specific pool based on ID" do
       get :show, params: {id: pool1.id}
       returned_json = JSON.parse(response.body)
@@ -64,7 +65,6 @@ RSpec.describe Api::V1::PoolsController, type: :controller do
 
     it "returns a game object" do
       post :start_game, params: {id: pool1.id, numberOfPlayers: "2"}
-
       returned_json = JSON.parse(response.body)
 
       expect(returned_json.length).to eq(1)
@@ -73,6 +73,55 @@ RSpec.describe Api::V1::PoolsController, type: :controller do
       expect(returned_json["game"]["draft_class"]["selections"].count).to eq(3)
       expect(returned_json["game"]["round"]).to eq("1")
       expect(returned_json["game"]["current_player"]).to eq(0)
+    end
+  end
+
+  describe "POST#start_online_game" do
+    it "if user is not signed it, returns json with an error message" do
+      post :start_online_game, params: {id: pool1.id, numberOfPlayers: "2"}
+      returned_json = JSON.parse(response.body)
+
+      expect(returned_json["error"]).to eq("You must be signed in to play online")
+    end
+    it "if user is signed in, creates a new game with a status of waiting, and returns the newly created game" do
+      user = FactoryBot.create(:user)
+      sign_in user
+
+      post :start_online_game, params: {id: pool1.id, numberOfPlayers: "2"}
+      returned_json = JSON.parse(response.body)
+
+      expect(returned_json.length).to eq(1)
+      expect(returned_json["game"]["created_by"]).to eq(user.username)
+      expect(returned_json["game"]["status"]).to eq("waiting")
+      expect(returned_json["game"]["teams"].count).to eq(1)
+      expect(returned_json["game"]["selections"].count).to eq(3)
+      expect(returned_json["game"]["draft_class"]["selections"].count).to eq(3)
+      expect(returned_json["game"]["round"]).to eq("1")
+      expect(returned_json["game"]["current_player"]).to eq(0)
+    end
+  end
+
+  describe "GET#waiting_games" do
+    it "should return json with error message if user is not signed in" do
+      get :waiting_games, params: {id: pool1.id}
+      returned_json = JSON.parse(response.body)
+
+      expect(returned_json["error"]).to eq("You must be signed in to play online")
+    end
+    it "should return json of online games with a status of waiting" do
+      user = FactoryBot.create(:user)
+      user2 = FactoryBot.create(:user)
+      sign_in user
+
+      game = Game.online_start(pool1.id, "2", user2)
+      game2 = Game.online_start(pool2.id, "2", user2)
+
+      get :waiting_games, params: {id: pool1.id}
+      returned_json = JSON.parse(response.body)
+
+      expect(returned_json["games"].length).to eq(1)
+      expect(returned_json["games"].first["created_by"]).to eq(user2.username)      
+      expect(returned_json["games"].first["id"]).not_to eq(game2.id)      
     end
   end
 end
