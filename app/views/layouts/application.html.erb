@@ -14,10 +14,10 @@
   
   <nav class="top-bar nav-bar">
     <h1><a href="/pools" class="site-title">PopDraft</a></h1>
-
     <section class="top-bar-section">
       <div class="right">
         <%- if current_user -%>
+          <li class='sign-out'><%= link_to 'Your Drafts', user_games_path(current_user), class: "sign-out"%></li>
           <li class="sign-out"><%= link_to 'Sign Out', destroy_user_session_path, method: :delete, class: "sign-out" %></li>
         <%- else -%>
           <li class="sign-out"><%= link_to 'Sign Up', new_user_registration_path, class: "sign-out" %></li>
