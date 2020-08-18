@@ -172,7 +172,7 @@ const ResultsContainer = props => {
       <div className="grid-x grid-padding-x">
         <h2 className='cell small-6'>Results</h2>
         <div className="button cell large small-6" onClick={handleNewResultsClick}>
-          View Another Game
+          View Random Game
         </div>
       </div>
       <h1 className='cell londrina-solid'>Final Teams: (Click on team to vote for the winner!)</h1>
