@@ -3,7 +3,7 @@ class Api::V1::GamesController < ApplicationController
 
   def index
     user = User.find(params["user_id"])
-    user_games = user.games.where(status: "complete")
+    user_games = user.games.where(status: "complete").limit(50).order("created_at DESC")
 
     render json: user_games, each_serializer: UsergamesSerializer
   end

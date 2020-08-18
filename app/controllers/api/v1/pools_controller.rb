@@ -23,6 +23,10 @@ class Api::V1::PoolsController < ApplicationController
   def start_game
     game = Game.start(params["id"], params["numberOfPlayers"])
 
+    if current_user
+      game.users << current_user
+    end
+
     render json: game
   end
 

@@ -35,8 +35,11 @@ const UserGamesContainer = props => {
   })
 
   return(
-    <div>
-      {usergameTiles}
+    <div className="grid-container">
+      <h1>Completed Drafts</h1>
+      <div className="grid-x grid-margin-x">
+        {usergameTiles}
+      </div>
     </div>
   )
 }
