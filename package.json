@@ -23,7 +23,7 @@
     "babel-loader": "^8.0.6",
     "react-router-dom": "5.0.0",
     "redbox-react": "1.6.0",
-    "lodash": "4.17.15",
+    "lodash": "4.17.21",
     "react-hover": "2.0.0",
     "react-alert": "7.0.2",
     "react-alert-template-basic": "1.0.0",
